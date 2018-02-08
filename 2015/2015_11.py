@@ -3,10 +3,6 @@ import re
 #previous password
 input = "hepxcrrq"
 
-"""
-for i in range(len(s)-1, -1, -1): #s[::-1]
-		print(s[i])
-"""
 
 def increment(s, pos): #icnreases the string
 	if (pos == -1):
@@ -23,7 +19,41 @@ def increment(s, pos): #icnreases the string
 	return (s)
 
 
-	
-for i in range(10):
+def has_incr_straight(s):
+	for i in range(len(s)-2):
+		if (ord(s[i])+1 == ord(s[i+1]) and ord(s[i+1])+1 == ord(s[i+2])):
+			return (True)
+
+	return (False)
+
+
+def has_iol(s): #does string have i, o or l letters (true if yes)
+	if (re.findall(r'[iol]', s)):
+		return (True)
+
+	return (False)
+
+
+
+def has_pairpair(s): #does string have a non-overlapping pair of pairs of different letters (aa_bb) (true if yes)
+	if (re.findall(r'(\w)\1.*((?!\1)\w)\2', s)): #mathces every substring that starts with two of the same character and ends with two of the same characters that arent the same as the first. In between there can be 0 or more characters
+		return (True)
+
+	return (False)
+
+
+while (True):
 	input = increment(input, len(input)-1)
-	print(input)
+
+	if (has_incr_straight(input) and not has_iol(input) and has_pairpair(input)): #until the psswd with increasin straight, without i/o/l and with different pair of pairs of letters is found
+		break
+
+print("1. next password suitable: ", input)
+
+while (True):
+	input = increment(input, len(input)-1)
+
+	if (has_incr_straight(input) and not has_iol(input) and has_pairpair(input)):
+		break
+
+print("2. next next password suitable: ", input)
