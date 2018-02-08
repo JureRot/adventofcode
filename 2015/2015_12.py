@@ -17,7 +17,7 @@ print(re.findall(r'{[^{\[]*?"red"[^}\[]*?}', input))
 
 f = re.findall(r'[-]*\d+', input) #makes a list of all strings with optional netation
 
-for i in range(len(f)): #changes all strings into itegers
+for i in range(len(f)): #changes all strings into itegers (could be done with map() -> sum(map(int, re.findall(r'[-]*\d+', input))) )
 	f[i] = int(f[i])
 
 print("1. sum of all the numbers:", sum(f))
