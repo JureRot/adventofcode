@@ -41,6 +41,6 @@ print("1. number of all distinct molecules created with one replacement: ", len(
 
 """
 idea here:
-A* or greedy approach where we always replace the longest possible replacement
+A* / greedy approach where we always replace the longest possible replacement / CYK algorithm
 """
 
