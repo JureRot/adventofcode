@@ -33,11 +33,20 @@ replace(mol, distinct_outputs, replacements)
 
 print("1. number of all distinct molecules created with one replacement: ", len(distinct_outputs))
 
+
+
+
 #second part (reverse of above)
 
 reversements = collections.defaultdict(list)
 
+input = """e => H
+e => O
+H => HO
+H => OH
+O => HH""".split('\n')
 
+mol = "HOHOHO"
 
 for i in input:
 	i_list = i.split(' ')
@@ -83,7 +92,7 @@ for i in range(10):
 
 """
 idea here:
-we start with e and we make all possible replacements until we get to our given mol. This is breadth-first search. It will find it, but will take a while
-New idea, we do this in reverse. Thus we limit our tree of search  a lot.
+we do the first part in reverse. Thus we limit our tree of search  a lot It works, but still not fast enough.
+new idea A* or greedy approach where we always replace the longest possible replacement
 """
 
