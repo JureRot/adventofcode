@@ -67,7 +67,7 @@ deformed = set([mol]) #var for holding iterations
 
 n = 0 #counter
 
-while (True):
+while (True): #still takes a while
 	n += 1
 	new_deformed = set() #helping var for holding temp values of iteration
 
