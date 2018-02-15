@@ -12,7 +12,7 @@ shop = dict() #dict inside a dict inside dict ???, dictseption / value of type (
 
 boss_stats = []
 
-with open('input2015_21.txt', 'r') as myfile:
+with open('input2015_21.txt', 'r') as myfile: #NOTE: THE INPUT FOR THIS EXCERCISE IS EDITED
 	input = myfile.read().split('\n')
 
 
