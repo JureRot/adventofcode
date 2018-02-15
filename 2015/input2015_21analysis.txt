@@ -1,0 +1,8 @@
+6 rings
+5 armor
+5 weapons
+
+0 rings -> 5+1armor * 5weapon 				=  30
+1 ring 	-> 6rings * 5+1armor * 5weapon		= 180
+2 rings -> 6*5 rings * 5+1armor * 5weapon	= 900
+sum 										=1380 kombinacij (to je kr izvedljivo, se mi zdi)
