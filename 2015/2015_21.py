@@ -1,8 +1,8 @@
-
+import sys
 
 
 #starting vars
-smallest_cost = 1000
+smallest_cost = sys.maxsize #starting size of max int
 items_bought = []
 
 largest_cost = 0
@@ -209,4 +209,4 @@ print("1. the smallest cost of items allowing us to still defeat the boss: ", sm
 
 #second part (most spent, still lose) (we add an new funct for check cost which is exectued only when we lose)
 
-print("1. the largest ammount of money we can spend and still lose to the boss:", largest_cost)
+print("1. the largest amount of money we can spend and still lose to the boss:", largest_cost)
