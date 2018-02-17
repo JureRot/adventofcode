@@ -140,6 +140,7 @@ def game(player, boss): #recursive method of the whole game with every possible 
 	p.tick()
 
 	if (p.mana >= 53): #THINK ABOUT THE SEQUENCE OF EVENTS
+		#if timer == 0 (not set) -> limit the options
 		pM = copy.deepcopy(p)
 		bM = copy.deepcopy(b)
 		##pM.magicMissile()
