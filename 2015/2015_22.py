@@ -456,3 +456,5 @@ the best combination is the one which spends the least ammount of mana (rechargi
 probably depth-first-search (at each branching we go till we win or lose, than we backtract till the point which still has an unvisitited branching)
 We will still have to go over all of the branching to be sure we found the one with the smallest spending
 """
+
+#DONT KNOW WHY BUT THIS DOESNT WORK PROPERLY. ITS ALL A MESS. TRY A NEW, CLEAN AND SIMPLE
