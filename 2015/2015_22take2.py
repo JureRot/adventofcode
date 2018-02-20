@@ -78,24 +78,211 @@ class Player(Entity):
 			self.rt = 5
 
 	def tick(self, opp):
-		if (st): #we have Shield active
+		if (self.st): #we have Shield active
 			self.arm = 7
 			self.st -= 1
 		else : #shield becomes inactive
 			self.arm = 0
-		if (pt): #we have Poison active
+		if (self.pt): #we have Poison active
 			opp.hp -= 3
 			self.pt -= 1
-		if (rt): #we have Recharge active
+		if (self.rt): #we have Recharge active
 			self.mana += 101
 			self.rt -= 1
 
 	def attack(self, opp):
-		if (mt): #we used Magic Missile
+		if (self.mt): #we used Magic Missile
 			opp.hp -= 4
-		if (dt): #we used Drain
+			self.mt = False
+		if (self.dt): #we used Drain
 			opp.hp -= 2
 			self.hp += 2
+			self.dt = False
+
+
+
+def is_dead(o): #True = dead, False = alive
+	if (o.hp <= 0):
+		return True
+	return False
+
+
+def is_smallest(o):
+	global smallest_amount
+	global sequence
+
+	if (o.spent < smallest_amount):
+		smallest_amount = o.spent
+		sequence = o.abilities
+
+
+
+def game(player, boss):
+	p = player
+	b = boss
+
+
+	#TICK
+	p.tick(b)
+
+	#CHECK
+	if (is_dead(b)):
+		#print("win", p.abilities)
+		is_smallest(p)
+		return None
+
+	#CAST  ABILITY
+	if (p.mana >= 53): #magic missile
+		pm = copy.deepcopy(p)
+		bm = copy.deepcopy(b)
+
+		#ABILITY
+		pm.magicMissile()
+
+		#ATTACK
+		pm.attack(bm)
+
+		#CHECK
+		if (is_dead(bm)):
+			#print("win", pm.abilities)
+			is_smallest(pm)
+			return None
+
+		#TICK
+		pm.tick(bm)
+
+		#CHECK
+		if (is_dead(bm)):
+			#print("win", pm.abilities)
+			is_smallest(pm)
+			return None
+
+		#ATTACK
+		bm.attack(pm)
+
+		#CHECK
+		if (is_dead(pm)):
+			#print("lose", pm.abilities)
+			return None
+
+		game(pm, bm)
+
+
+	if (p.mana >= 73): #drain
+		pd = copy.deepcopy(p)
+		bd = copy.deepcopy(b)
+
+		pd.drain()
+
+		pd.attack(bd)
+
+		if (is_dead(bd)):
+			#print("win", pd.abilities)
+			is_smallest(pd)
+			return None
+
+		pd.tick(bd)
+
+		if (is_dead(bd)):
+			#print("win", pd.abilities)
+			is_smallest(pd)
+			return None
+
+		bd.attack(pd)
+
+		if (is_dead(pd)):
+			#print("lose", pd.abilities)
+			return None
+
+		game(pd, bd)
+
+
+	if (p.mana >= 113 and not p.st): #shield
+		ps = copy.deepcopy(p)
+		bs = copy.deepcopy(b)
+
+		ps.shield()
+
+		"""ps.attack(bs) #not needed, we dont attack this round
+
+		if (is_dead(bs)):
+			#print("win", ps.abilities)
+			is_smallest(ps)
+			return None"""
+
+		ps.tick(bs)
+
+		if (is_dead(bs)):
+			#print("win", ps.abilities)
+			is_smallest(ps)
+			return None
+
+		bs.attack(ps)
+
+		if (is_dead(ps)):
+			#print("lose", ps.abilities)
+			return None
+
+		game(ps, bs)
+
+
+	if (p.mana >= 173 and not p.pt): #poison
+		pp = copy.deepcopy(p)
+		bp = copy.deepcopy(b)
+
+		pp.poison()
+
+		"""pp.attack(bp) #not neede, we don attack this turn
+
+		if (is_dead(bp)):
+			#print("win", pp.abilities)
+			is_smallest(pp)
+			return None"""
+
+		pp.tick(bp)
+
+		if (is_dead(bp)):
+			#print("win", pp.abilities)
+			is_smallest(pp)
+			return None
+
+		bp.attack(pp)
+
+		if (is_dead(pp)):
+			#print("lose", pp.abilities)
+			return None
+
+		game(pp, bp)
+
+
+	if (p.mana >= 229 and not p.rt): #recharge
+		pr = copy.deepcopy(p)
+		br = copy.deepcopy(b)
+
+		pr.recharge()
+
+		"""pr.attack(br) #not needed, we dont attack this turn
+
+		if (is_dead(br)):
+			#print("win", pr.abilities)
+			is_smallest(pr)
+			return None"""
+
+		pr.tick(br)
+
+		if (is_dead(br)):
+			#print("win", pr.abilities)
+			is_smallest(pr)
+			return None
+
+		br.attack(pr)
+
+		if (is_dead(pr)):
+			#print("lose", pr.abilities)
+			return None
+
+		game(pr, br)
+
 
 
 
@@ -103,28 +290,9 @@ boss = Entity(boss_stats[0], boss_stats[1], 0)
 player = Player(50, 0, 0, 500)
 
 
-def game(player, boss):
-	p = player
-	b = boss
+game(player, boss)
 
-	p.tick(b)
-
-	if (p.mana >= 53):
-		pass
-
-	if (p.mana >= 73):
-		pass
-
-	if (p.mana >= 113 and not p.st):
-		pass
-
-	if (p.mana >= 173 and not p.pt):
-		pass
-
-	if (p.mana >= 229 and not p.rt):
-		pass
-
-
+print(smallest_amount, sequence)
 
 """
 p:
