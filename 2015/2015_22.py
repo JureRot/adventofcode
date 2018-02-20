@@ -152,7 +152,7 @@ def game(player, boss, hard): #recursive method of the whole game with every pos
 	p = player
 	b = boss
 
-	#print(p.hp, b.hp)
+	print(p.abilities)
 
 	if (hard):
 		p.hp -= 1
