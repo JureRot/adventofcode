@@ -21,9 +21,9 @@ t = sum(packages) // 3
 
 #test
 
-packages = [1, 2, 4, 5, 9]
+packages = [1, 1, 1, 2, 2, 5, 10]
 
-t = 15
+t = 10
 
 nums = [[False  if i!=0 else True for i in range(t+1)] for i in range(len(packages))] #makes 2d array used for solving subset sum problem with dynamic programing
 
@@ -44,30 +44,39 @@ def make_sspm(set, t): #makes a matrix. if last last cells is True we have at le
 	return (arr) #returns the made matrix
 
 
-def get_subsets(set, sspm, t, subsets): #gets all subsets from subset sum problem matrix for sum t
+def get_subsets(in_set, sspm, t, max_i, subsets): #gets all subsets from subset sum problem matrix for sum t, recursivly
 
-	if (not sspm[-1][-1]): #do we have a subset (is the last last cell True)
-		return (None) #no subset
-	else: #there is a subset
+	r_set = set()
+
+	if (sspm[len(sspm)-1][len(sspm[0])-1]): #we have subset
+
 		j = t
 
-		for i in range(1, len(sspm)):
-			if (set[i-1] <= t): #if element on left side can fit into remaining sum (isnt too big)
-				if (sspm[i][j]): #if cell is true (can be part of the partition to make sum)
+		for i in range(1, max_i):
+			if (in_set[i-1] <= t):
+				if (sspm[i][j]):
+					r_set.add(i)
 
-					new_t = t - set[i-1]
-
-					subsets.append(set[i-1])
-
-					if (new_t > 0): #if the remaining sum more than 0 we go deeper
-						get_subsets(set, sspm, t-set[i-1], subsets)
-
-		return (subsets) #how to make the sets in recursion ??? can just go over for loop and after we find all possiblities we go deeper (parallel)
+		for i in r_set:
+			#print(r_set, str(in_set[i-1])+","+"("+str(t)+")")
+			subsets += str(in_set[i-1])+"("+str(t)+")"+","
+			if (t-in_set[i-1] == 0):
+				#print(";")
+				subsets += ";"
+			subsets = get_subsets(in_set, sspm, t-in_set[i-1], i, subsets)
+		
+		
+		return (subsets)
+	else:
+		return (None)
 
 
 out = make_sspm(packages, t)
 
-ss = get_subsets(packages, out, t, [])
+for i in out:
+	print(i)
+
+ss = get_subsets(packages, out, t, len(out), "")
 
 print(ss)
 
