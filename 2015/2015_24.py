@@ -44,7 +44,7 @@ def make_sspm(set, t): #makes a matrix. if last last cells is True we have at le
 	return (arr) #returns the made matrix
 
 
-def get_subsets(in_set, sspm, t, max_i, subsets): #gets all subsets from subset sum problem matrix for sum t, recursivly
+def get_subsets(in_set, sspm, t, max_i, subsets): #gets all subsets from subset sum problem matrix for sum t, recursivly. OUTPUTS SETS IN A WEIRD STRING FORMAT
 
 	r_set = set()
 
@@ -69,6 +69,10 @@ def get_subsets(in_set, sspm, t, max_i, subsets): #gets all subsets from subset 
 		return (subsets)
 	else:
 		return (None)
+
+
+def decode_subsets(s): #gets weird string format of sets and outputs actual set of subsets
+	pass
 
 
 out = make_sspm(packages, t)
