@@ -146,7 +146,7 @@ smallest_qe = sys.maxsize
 partition = []
 
 for i in smallest:
-	if (functools.reduce(operator.mul, i)):
+	if (functools.reduce(operator.mul, i) < smallest_qe):
 		smallest_qe = functools.reduce(operator.mul, i)
 		partition = i
 
@@ -219,7 +219,7 @@ for take 2 idea:
 
 """
 i've noticed that the more comlex the problem is, the uglier and unorganized my code is.
-this can probably be solved with rewriting the code and thus through iterations improve it, but is somewhat stupid to do if not necessary
+this can probably be solved with rewriting the code and thus through iterations improving it, but is somewhat stupid to do if not necessary
 (of course it is fine if something is overengeneered and it isn't working).
 other option is to plan the program. to first analize the problem, create a strategy for solving it and do it.
 thus the code is way more organized, and straight-forward without weird turns that were repurposed after seeint they lead nowhere
