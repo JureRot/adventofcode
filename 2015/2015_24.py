@@ -1,4 +1,6 @@
-
+import functools
+import operator
+import sys
 
 
 #starting vars
@@ -18,11 +20,6 @@ for i in input:
 t = sum(packages) // 3
 
 
-
-#test
-
-"""packages = [1, 2, 3, 4, 5]
-t = 10"""
 
 nums = [[False  if i!=0 else True for i in range(t+1)] for i in range(len(packages))] #makes 2d array used for solving subset sum problem with dynamic programing
 
@@ -112,23 +109,95 @@ def decode_subsets(s, t): #gets weird string format of sets and outputs actual s
 
 
 
-#out = make_sspm(packages, t)
+out = make_sspm(packages, t)
 
 """f = open("input2015_24ssptable.txt", 'w')
 f.write(out)
 f.close()"""
 
-#gs = get_subsets(packages, out, t, len(out), "") #holy shit this is slow (maybe candidate for take 2) takes about 50 min
+gs = get_subsets(packages, out, t, len(out), "") #holy shit this is slow (maybe candidate for take 2) takes about 50 min
 
-"""f = open("input2015_24textsubsets.txt", 'w')
+f = open("input2015_24textsubsets3.txt", 'w')
 f.write(gs)
+f.close()
+
+with open('input2015_24textsubsets3.txt', 'r') as myfile: #closes by itself ???
+	text_subsets = myfile.read()
+
+ds = decode_subsets(text_subsets, t)
+
+sorted_ds = sorted(ds, key=len)
+
+min_num = None
+smallest = []
+
+for i in sorted_ds:
+	if (min_num == None):
+		min_num = len(i)
+		smallest.append(i)
+	else:
+		if (len(i) == min_num):
+			smallest.append(i)
+		else:
+			break
+#print(len(smallest))
+
+smallest_qe = sys.maxsize
+partition = []
+
+for i in smallest:
+	if (functools.reduce(operator.mul, i)):
+		smallest_qe = functools.reduce(operator.mul, i)
+		partition = i
+
+print("1. the quantum entanglement of the bag with the smallest ammount of packages equating to the third and the smallest entanglement: ", smallest_qe)
+
+
+#second part
+t = sum(packages) // 4
+
+out = make_sspm(packages, t)
+
+"""f = open("input2015_24ssptable.txt", 'w')
+f.write(out)
 f.close()"""
 
-#ds = decode_subsets(gs, t)
+gs = get_subsets(packages, out, t, len(out), "") #holy shit this is slow (maybe candidate for take 2) takes about 50 min
 
-"""f = open("input2015_24arraysubsets.txt", 'w')
-f.write(ds)
-f.close()"""
+f = open("input2015_24textsubsets4.txt", 'w')
+f.write(gs)
+f.close()
+
+with open('input2015_24textsubsets4.txt', 'r') as myfile: #closes by itself ???
+	text_subsets = myfile.read()
+
+ds = decode_subsets(text_subsets, t)
+
+sorted_ds = sorted(ds, key=len)
+
+min_num = None
+smallests = []
+
+for i in sorted_ds:
+	if (min_num == None):
+		min_num = len(i)
+		smallests.append(i)
+	else:
+		if (len(i) == min_num):
+			smallests.append(i)
+		else:
+			break
+#print(len(smallest))
+
+smallest_qe2 = sys.maxsize
+partition2 = []
+
+for i in smallests:
+	if (functools.reduce(operator.mul, i)):
+		smallest_qe2 = functools.reduce(operator.mul, i)
+		partition2 = i
+
+print("2. the quantum entanglement of the bag with the smallest ammount of packages equating to the fourth and the smallest entanglement: ", smallest_qe2)
 
 
 
