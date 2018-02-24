@@ -21,9 +21,8 @@ t = sum(packages) // 3
 
 #test
 
-packages = [1, 1, 1, 2, 2, 5, 10]
-
-t = 10
+"""packages = [1, 2, 3, 4, 5]
+t = 10"""
 
 nums = [[False  if i!=0 else True for i in range(t+1)] for i in range(len(packages))] #makes 2d array used for solving subset sum problem with dynamic programing
 
@@ -45,7 +44,7 @@ def make_sspm(set, t): #makes a matrix. if last last cells is True we have at le
 
 
 def get_subsets(in_set, sspm, t, max_i, subsets): #gets all subsets from subset sum problem matrix for sum t, recursivly. OUTPUTS SETS IN A WEIRD STRING FORMAT
-
+	print(len(subsets))
 	r_set = set()
 
 	if (sspm[len(sspm)-1][len(sspm[0])-1]): #we have subset
@@ -59,7 +58,7 @@ def get_subsets(in_set, sspm, t, max_i, subsets): #gets all subsets from subset 
 
 		for i in r_set:
 			#print(r_set, str(in_set[i-1])+","+"("+str(t)+")")
-			subsets += str(in_set[i-1])+"("+str(t)+")"+","
+			subsets += str(in_set[i-1])+"/"+str(t)+"," #nuber chosen / sum at that point (next level of recur. will be for curr sum - number chosen)
 			if (t-in_set[i-1] == 0):
 				#print(";")
 				subsets += ";"
@@ -71,18 +70,54 @@ def get_subsets(in_set, sspm, t, max_i, subsets): #gets all subsets from subset 
 		return (None)
 
 
-def decode_subsets(s): #gets weird string format of sets and outputs actual set of subsets
-	pass
+def decode_subsets(s, t): #gets weird string format of sets and outputs actual set of subsets
+	sets = []
+
+	"""l_set = s.split(';')[:-1] #the last element is an empty string (probably \n or something)
+
+	for i in l_set:
+		inset = []
+		m_set = i.split(',')[:-1] #same reason as above
+		for j in m_set:
+			s_set = j.split('/')
+			#print(s_set)"""
+
+	all_set = [[i.split('/') for i in i.split(',')[:-1]] for i in s.split(';')[:-1]]
+	#split string over ; (negating last elelment). splits that using , (negating last element). splits that using / (array inside array inside array)
+	#[:-1] is used on ; and , because there is the last empty element we dont want
+	
+	
+	for i in all_set:
+		inset = []
+
+		if (int(i[0][1]) == t): #if the branch happend at the beginning (sum at that point is the total sum we want)
+			inset = [int(n) for n,k in i]
+
+		else: #if branch in betwen (we need to prefill the inset)
+			n = int(i[0][1])
+			temp_t = t
+
+			for j in sets[-1]:
+				inset.append(j)
+				temp_t -= j
+				if (temp_t == n):
+					break
+
+			inset += [int(n) for n,k in i] #adds the remaining after branching
+			
+
+		sets.append(inset)
+
+	return (sets)
+
 
 
 out = make_sspm(packages, t)
 
-for i in out:
-	print(i)
+gs = get_subsets(packages, out, t, len(out), "") #holy shit this is slow (maybe candidate for take 2)
 
-ss = get_subsets(packages, out, t, len(out), "")
+#ds = decode_subsets(gs, t)
 
-print(ss)
 
 
 """
@@ -92,8 +127,13 @@ for now the ideas:
 	 partition problem
 	 3-partition problem
 	 subset sum problem (dynamic programing) (sum//3)
+	 	(find all the partitions (subsets) that sum to third of whole and find the one with the smalles number of elements 
+	 	(we presume that if we can get a sum of a third, the remaining cana funrther be cleanly split in half))
 
 	 (now you see why you need the knowledge of algorithems and data structures)
+
+for take 2 idea:
+	just find all the combinations len 1->len(input) that summ up to sum(input)//3 and find the one that has the least ammount of elements + the quantum thingy
 """
 
 """
