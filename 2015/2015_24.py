@@ -44,7 +44,7 @@ def make_sspm(set, t): #makes a matrix. if last last cells is True we have at le
 
 
 def get_subsets(in_set, sspm, t, max_i, subsets): #gets all subsets from subset sum problem matrix for sum t, recursivly. OUTPUTS SETS IN A WEIRD STRING FORMAT
-	print(len(subsets))
+	#print(len(subsets))
 	r_set = set()
 
 	if (sspm[len(sspm)-1][len(sspm[0])-1]): #we have subset
@@ -112,11 +112,23 @@ def decode_subsets(s, t): #gets weird string format of sets and outputs actual s
 
 
 
-out = make_sspm(packages, t)
+#out = make_sspm(packages, t)
 
-gs = get_subsets(packages, out, t, len(out), "") #holy shit this is slow (maybe candidate for take 2)
+"""f = open("input2015_24ssptable.txt", 'w')
+f.write(out)
+f.close()"""
+
+#gs = get_subsets(packages, out, t, len(out), "") #holy shit this is slow (maybe candidate for take 2) takes about 50 min
+
+"""f = open("input2015_24textsubsets.txt", 'w')
+f.write(gs)
+f.close()"""
 
 #ds = decode_subsets(gs, t)
+
+"""f = open("input2015_24arraysubsets.txt", 'w')
+f.write(ds)
+f.close()"""
 
 
 
