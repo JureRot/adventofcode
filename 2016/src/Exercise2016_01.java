@@ -88,6 +88,7 @@ public class Exercise2016_01 {
             direction = update[2];
 
             //check if already visited or something
+            //and not just the points where we turn, the straight in between as well
 
         }
 
