@@ -10,6 +10,8 @@ public class Exercise2016_04 {
         //idea, create checksum by the rules, compare (instead of actully checking if checksum is correct)
         //for creating use Map (HashMap) to store number of appearences of letters, than get keys, and sort by value ??? (dont know how yet)
 
+        String createdChekcsum = "";
+
         Map<Character, Integer> letters = new TreeMap<>();
 
         for (int i=0; i<name.length(); i++) {
@@ -24,14 +26,14 @@ public class Exercise2016_04 {
         Set<Map.Entry<Character, Integer>> kv = letters.entrySet();*/
 
         //Map<Integer, ArrayList<Character>> repetitions = new TreeMap<>(); //we could use arraylist
-        Map<Integer, char[]> repetitions = new TreeMap<>();
+        Map<Integer, char[]> repetitions = new TreeMap<>(Collections.reverseOrder());
 
         for (Map.Entry<Character,Integer> kv : letters.entrySet()) {
             //repetitions.put(kv.getValue(), new ArrayList<>());
             repetitions.put(kv.getValue(), new char[]{});
         }
         for (Map.Entry<Character,Integer> kv : letters.entrySet()){
-            System.out.println(kv.getKey() +" "+ kv.getValue());
+            //System.out.println(kv.getKey() +" "+ kv.getValue());
             /*ArrayList<Character> newValue = new ArrayList<>(repetitions.get(kv.getValue()));
             newValue.add(kv.getKey());
             repetitions.put(kv.getValue(), newValue);*/
@@ -43,6 +45,20 @@ public class Exercise2016_04 {
             newValue[newValue.length-1] = kv.getKey();
             repetitions.put(kv.getValue(), newValue);
 
+        }
+
+        for (char[] c : repetitions.values()) {
+            for (int ch=0; ch<c.length; ch++) {
+                if (createdChekcsum.length() < 5) {
+                    createdChekcsum += c[ch];
+                } else {
+                    break;
+                }
+            }
+        }
+
+        if (checksum.equals(createdChekcsum)) {
+            return true;
         }
 
         return false;
@@ -68,7 +84,12 @@ public class Exercise2016_04 {
 
             if (isReal(name, line_array[1])) {
                 sumOfSectors += sector;
+
+                //second part
+                //decode
             }
         }
+
+        System.out.println("1. sum of sector ID's of the real rooms: " + sumOfSectors);
     }
 }
