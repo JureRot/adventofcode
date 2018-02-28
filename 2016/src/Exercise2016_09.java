@@ -147,6 +147,7 @@ public class Exercise2016_09 {
 
         //second part
         decomp2 = decompress2(input); //this takes a shit ton of time, not sure if it actually finishes
+        //this actually does take too much time, it isnt feasable to decompress by actually creating a decompessed string (take 2 incoming)
 
         System.out.println("2. the length of decompressed input using v2: " + decomp2.length());
 
