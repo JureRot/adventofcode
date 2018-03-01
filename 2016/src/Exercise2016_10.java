@@ -9,13 +9,17 @@ class Bot {
     private int value1;
     private int value2;
     private int low_to;
+    private int low_bot; //-1=not set, 1=bot, 2=output
     private int high_to;
+    private int high_bot;
 
     public Bot () { //constructor
         this.value1 = -1;
         this.value2 = -1;
         this.low_to = -1;
+        this.low_bot = -1;
         this.high_to = -1;
+        this.high_bot = -1;
     }
 
     public boolean setValue(int v) {
@@ -43,10 +47,12 @@ class Bot {
         }
     }
 
-    public boolean setInstruction(int l, int h) {
+    public boolean setInstruction(int l, int lb, int h, int hb) {
         //should we check if already have instruction (can they overwrite each other, i guess yes)
         this.low_to = l;
+        this.low_bot = lb;
         this.high_to = h;
+        this.high_bot = hb;
         //if has instructions and is full -> compare, give out (if give -> return true)
         if (this.isFull() && this.hasInstructions()) {
             this.compare();
@@ -61,6 +67,19 @@ class Bot {
 
     public int[] getInstructions() {
         return new int[]{this.low_to, this.high_to};
+    }
+
+    public int[] getAll() {
+        return new int[]{this.value1, this.value2, this.low_to, this.low_bot, this.high_to, this.high_bot};
+    }
+
+    public void setAll(int v1, int v2, int l, int lb, int h, int hb) {
+        this.value1 = v1;
+        this.value2 = v2;
+        this.low_to = l;
+        this.low_bot = lb;
+        this.high_to = h;
+        this.high_bot = hb;
     }
 
     private boolean isFull() {
@@ -90,7 +109,7 @@ class Bot {
     //give (what if the bot we are giving to doesn't exist yet? -> must be implemented outiside)
         //give is implemented outside the class (here we just wipe the values and instructions)
         //outisde: gets values (remembers for comparison sake) and gives them to bots specified in instructions (if not exists makes new). after all we call give
-    public void give() {
+    public void clear() {
         this.value1 = -1;
         this.value2 = -1;
         //do we clear the instructions as well???
@@ -100,6 +119,15 @@ class Bot {
 }
 
 public class Exercise2016_10 {
+    public static Map[] give(Map<Integer, Bot> bots, Map<Integer, ArrayList<Integer>> outputs, int b) { //recursively distributes the values
+        int[] b_stats = bots.get(b).getAll();
+        for (int i=0; i<b_stats.length; i++) {
+            System.out.println(b_stats[i]);
+        }
+
+        return new Map[]{bots, outputs};
+    }
+
     public static void main(String[] args) throws FileNotFoundException {
         /*
         idea:
@@ -116,7 +144,7 @@ public class Exercise2016_10 {
 
         //starting vars
         Map<Integer, Bot> bots = new HashMap<>();
-        Map<Integer, ArrayList<Integer>> outputs = new HashMap<>();
+        Map<Integer, ArrayList<Integer>> outputs = new HashMap<>(); // maybe outputs in bots as negative number ?? (nah -0 is not valid)
 
 
         Scanner sc = new Scanner(new File("src/input2016_10.txt"));
@@ -126,13 +154,50 @@ public class Exercise2016_10 {
         }
         sc.close();
 
+
         for (int i=0; i<input.size(); i++) {
-            System.out.print(input.get(i) + ", ");
             String[] line_array = input.get(i).split(" ");
             if (line_array.length == 6) {
-                System.out.println("value");
+                int b = Integer.parseInt(line_array[5]);
+                int v = Integer.parseInt(line_array[1]);
+
+                if (!bots.containsKey(b)) {
+                    bots.put(b, new Bot());
+                }
+
+                boolean confirm = bots.get(b).setValue(v);
+
+                if (confirm) { //this can trigger a domino effect (recursive method)
+                    System.out.println("give ");
+                    //Map[]{bots, outputs} = Give(bots, outputs, b, l, h); (and inside make sure the domino effect can be solved with recursion)
+                    Map[] update = give(bots, outputs, b);
+                    bots = update[0];
+                    outputs = update[1];
+                }
+
             } else {
-                System.out.println("gives");
+                int b = Integer.parseInt(line_array[1]);
+                int l = Integer.parseInt(line_array[6]);
+                int lb = 1;
+                int h = Integer.parseInt(line_array[11]);
+                int hb = 1;
+
+                if (line_array[5].equals("output")) {
+                    lb = 2;
+                }
+                if (line_array[10].equals("output")) {
+                    hb = 2;
+                }
+
+                if (!bots.containsKey(b)) {
+                    bots.put(b, new Bot());
+                }
+
+                boolean confirm = bots.get(b).setInstruction(l, lb, h, hb);
+
+                if (confirm) {
+                    System.out.println("give");
+                }
             }
         }
     }
