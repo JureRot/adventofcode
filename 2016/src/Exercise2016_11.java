@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
+import java.util.regex.Pattern;
 
 class Node {
     public String[] f4;
@@ -11,21 +12,98 @@ class Node {
     public int l;
     public int t;
     public int prev;
+    public boolean legit;
 
-    Node(String[] f4, String[] f3, String[] f2, String[] f1, int e, int l, int t, int prev) {
+    Node(String[] f4, String[] f3, String[] f2, String[] f1, int e, int l, int prev) {
         this.f4 = f4;
         this.f3 = f3;
         this.f2 = f2;
         this.f1 = f1;
         this.e = e;
         this.l = l;
-        this.t = t;
+        this.t = this.getT();
         this.prev = prev;
+        this.legit = isLegit();
     }
 
     public boolean isLegit() {
+        outerloop4: //label for outer loop so we can break or continue the outer loop from within the inner one
+        for (int i=0; i<this.f4.length; i++) { //for every element on fourt floor
+            if (this.f4[i].charAt(1) == 'M') { //if it is microchip (second char is M)
+                Pattern p1 = Pattern.compile(this.f4[i].charAt(0) + "G"); //we create a regex pater for his generator (the first char plus G)
+                for (int j = 0; j < this.f4.length; j++) { //we go over all elements on the same floor
+                    if (p1.matcher(this.f4[j]).matches()) { //if we found it (the chip is powered and is not in danger fro mother generators)
+                        continue outerloop4; //we continue the outer loop (this means we skip this iteration of the loop but don't break it)
+                    }
+                }
+                Pattern p2 = Pattern.compile("[^" + this.f4[i].charAt(0) + "]G"); //if the corresponding generator isn't found we create a regex patter of (whatever letter but the one as in the chip plus G) (generator that isn't for this microship)
+                for (int j = 0; j < this.f4.length; j++) {
+                    if (p2.matcher(this.f4[j]).matches()) { //if we found a generator that isn't compatible with the chip
+                        return false; //we return false (thus node isn't legit)
+                    }
+                }
+            }
+        }
 
-        return false;
+        outerloop3: //we do the same for all other floors
+        for (int i=0; i<this.f3.length; i++) {
+            if (this.f3[i].charAt(1) == 'M') {
+                Pattern p1 = Pattern.compile(this.f3[i].charAt(0) + "G");
+                for (int j = 0; j < this.f3.length; j++) {
+                    if (p1.matcher(this.f3[j]).matches()) {
+                        continue outerloop3;
+                    }
+                }
+                Pattern p2 = Pattern.compile("[^" + this.f3[i].charAt(0) + "]G");
+                for (int j = 0; j < this.f3.length; j++) {
+                    if (p2.matcher(this.f3[j]).matches()) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        outerloop2:
+        for (int i=0; i<this.f2.length; i++) {
+            if (this.f2[i].charAt(1) == 'M') {
+                Pattern p1 = Pattern.compile(this.f2[i].charAt(0) + "G");
+                for (int j = 0; j < this.f2.length; j++) {
+                    if (p1.matcher(this.f2[j]).matches()) {
+                        continue outerloop2;
+                    }
+                }
+                Pattern p2 = Pattern.compile("[^" + this.f2[i].charAt(0) + "]G");
+                for (int j = 0; j < this.f2.length; j++) {
+                    if (p2.matcher(this.f2[j]).matches()) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        outerloop1:
+        for (int i=0; i<this.f1.length; i++) {
+            if (this.f1[i].charAt(1) == 'M') {
+                Pattern p1 = Pattern.compile(this.f1[i].charAt(0) + "G");
+                for (int j = 0; j < this.f1.length; j++) {
+                    if (p1.matcher(this.f1[j]).matches()) {
+                        continue outerloop1;
+                    }
+                }
+                Pattern p2 = Pattern.compile("[^" + this.f1[i].charAt(0) + "]G");
+                for (int j = 0; j < this.f1.length; j++) {
+                    if (p2.matcher(this.f1[j]).matches()) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+
+    private int getT() {
+        return this.l + this.f3.length + 2*this.f2.length + 3*this.f1.length;
     }
 }
 
@@ -95,18 +173,29 @@ public class Exercise2016_11 { //makes a arraylist of all combinations of len le
         }
         sc.close();
 
-        //need to get combinatiations len 1 and 2 of array
+        String[] a = new String[]{"HM", "LM", "HG", "AG", "BG"};
 
-        String[] a = new String[]{"1", "2", "3", "4"};
-
-        ArrayList<String[]> test = getCombinations(a, 3);
+        /*ArrayList<String[]> test = getCombinations(a, 3);
 
         for (int i=0; i<test.size(); i++) {
             for (int j=0; j<test.get(i).length; j++) {
                 System.out.print(test.get(i)[j]);
             }
             System.out.println();
-        }
+        }?*/
+
+
+        /*
+        a) crate starting node and put it into leaves (and all)
+        b) get combinations of the floor with the elevator (1 and 2)
+        c) make nodes from combinations for elevator up and down (if possible)
+        d) keep all legit nodes and put them into leaves
+        e) remove current node from leaves
+        f) find the node in leaves with the smallest total
+        g) use that node as the new current
+        h) repeat b) -> until you find the last node (e=4, all on f4)
+        i) return number of counter (same as l of final node)
+         */
 
 
         //idea: implement A* algorithm of searching the ideal path (or at least try to if you get a chance)
