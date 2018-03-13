@@ -171,267 +171,226 @@ public class Exercise2016_11 { //makes a arraylist of all combinations of len le
         while (sc.hasNextLine()) { //we read input line by line and construct input ArrayList
             input.add(sc.nextLine());
         }
-        sc.close();
+        sc.close(); //input file not used in this exericse, we hard code the input
 
-        all.put(0, new Node(new String[]{}, new String[]{"LG"}, new String[]{"HG"}, new String[]{"HM", "LM"}, 1, 0, -1));
-        leaves.put(0, new Node(new String[]{}, new String[]{"LG"}, new String[]{"HG"}, new String[]{"HM", "LM"}, 1, 0, -1));
+        //all.put(0, new Node(new String[]{}, new String[]{"LG"}, new String[]{"HG"}, new String[]{"HM", "LM"}, 1, 0, -1));
+        //leaves.put(0, new Node(new String[]{}, new String[]{"LG"}, new String[]{"HG"}, new String[]{"HM", "LM"}, 1, 0, -1));
+
+        all.put(0, new Node(new String[]{}, new String[]{"TM"}, new String[]{"TG", "RG", "RM", "CG", "CM"}, new String[]{"SG", "SM", "PG", "PM"}, 1, 0, -1));
+        leaves.put(0, new Node(new String[]{}, new String[]{"TM"}, new String[]{"TG", "RG", "RM", "CG", "CM"}, new String[]{"SG", "SM", "PG", "PM"}, 1, 0, -1));
 
         int counter = 1;
 
+        while (true) {
+            int smallest_t = Integer.MAX_VALUE;
+            int smallest_n = -1;
 
-        int smallest_t = Integer.MAX_VALUE;
-        int smallest_n = -1;
-
-        for (Map.Entry<Integer, Node> entry : leaves.entrySet()) {
-            if (entry.getValue().t < smallest_t) {
-                smallest_t = entry.getValue().t;
-                smallest_n = entry.getKey();
-            }
-        }
-
-        Node current = leaves.get(smallest_n);
-
-        ArrayList<Node> newOnes;
-        ArrayList<String[]> one;
-        ArrayList<String[]> two;
-
-        switch (current.e) {
-            case 1:
-                newOnes = new ArrayList<>();
-
-                one = getCombinations(current.f1, 1);
-
-                for (int i=0; i<one.size(); i++) { //up (will also need for down)
-                    String[] f4 = current.f4.clone();
-                    String[] f3 = current.f3.clone();
-                    String[] f2 = new String[current.f2.length+1];
-                    for (int j=0; j<current.f2.length; j++) {
-                        f2[j] = current.f2[j];
-                    }
-                    f2[f2.length-1] = one.get(i)[0];
-                    String[] f1 = new String[current.f1.length-1];
-                    int j_index = 0;
-                    for (int j=0; j<current.f1.length; j++) {
-                        if (!current.f1[j].equals(one.get(i)[0])) {
-                            f1[j_index] = current.f1[j];
-                            j_index++;
-                        }
-                    }
-
-                    Node candidate = new Node(f4, f3, f2, f1, 2, current.l+1, smallest_n);
-                    if (candidate.legit) {
-                        newOnes.add(candidate);
-                    }
+            for (Map.Entry<Integer, Node> entry : leaves.entrySet()) {
+                if (entry.getValue().t < smallest_t) {
+                    smallest_t = entry.getValue().t;
+                    smallest_n = entry.getKey();
                 }
+            }
 
-                if (current.f1.length >= 2) {
-                    two = getCombinations(current.f1, 2);
+            Node current = leaves.get(smallest_n);
+            System.out.println(current.l);
 
-                    for (int i=0; i<two.size(); i++) { //up (will also need for down
+            if (current.e==4 && current.f1.length==0 && current.f2.length==0 && current.f3.length==0) {
+                System.out.println("1. minimum number of steps: " + current.l);
+                break;
+            }
+
+            ArrayList<Node> newOnes;
+            ArrayList<String[]> one;
+            ArrayList<String[]> two;
+
+            switch (current.e) {
+                case 1:
+                    newOnes = new ArrayList<>();
+
+                    one = getCombinations(current.f1, 1);
+
+                    for (int i = 0; i < one.size(); i++) { //up (will also need for down)
                         String[] f4 = current.f4.clone();
                         String[] f3 = current.f3.clone();
-                        String[] f2 = new String[current.f2.length+2];
-                        for (int j=0; j<current.f2.length; j++) {
+                        String[] f2 = new String[current.f2.length + 1];
+                        for (int j = 0; j < current.f2.length; j++) {
                             f2[j] = current.f2[j];
                         }
-                        f2[f2.length-2] = two.get(i)[0];
-                        f2[f2.length-1] = two.get(i)[1];
-                        String[] f1 = new String[current.f1.length-2];
+                        f2[f2.length - 1] = one.get(i)[0];
+                        String[] f1 = new String[current.f1.length - 1];
                         int j_index = 0;
-                        for (int j=0; j<current.f1.length; j++) {
-                            if (!current.f1[j].equals(two.get(i)[0]) && !current.f1[j].equals(two.get(i)[1])) {
+                        for (int j = 0; j < current.f1.length; j++) {
+                            if (!current.f1[j].equals(one.get(i)[0])) {
                                 f1[j_index] = current.f1[j];
                                 j_index++;
                             }
                         }
 
-                        Node candidate = new Node(f4, f3, f2, f1, 2, current.l+1, smallest_n);
+                        Node candidate = new Node(f4, f3, f2, f1, 2, current.l + 1, smallest_n);
                         if (candidate.legit) {
                             newOnes.add(candidate);
                         }
                     }
-                }
 
-                for (int i=0; i<newOnes.size(); i++) {
-                    all.put(counter, newOnes.get(i));
-                    leaves.put(counter++, newOnes.get(i));
-                }
-                leaves.remove(smallest_n);
-                break;
-            case 2:
-                newOnes = new ArrayList<>();
+                    if (current.f1.length >= 2) {
+                        two = getCombinations(current.f1, 2);
 
-                one = getCombinations(current.f2, 1);
+                        for (int i = 0; i < two.size(); i++) { //up (will also need for down
+                            String[] f4 = current.f4.clone();
+                            String[] f3 = current.f3.clone();
+                            String[] f2 = new String[current.f2.length + 2];
+                            for (int j = 0; j < current.f2.length; j++) {
+                                f2[j] = current.f2[j];
+                            }
+                            f2[f2.length - 2] = two.get(i)[0];
+                            f2[f2.length - 1] = two.get(i)[1];
+                            String[] f1 = new String[current.f1.length - 2];
+                            int j_index = 0;
+                            for (int j = 0; j < current.f1.length; j++) {
+                                if (!current.f1[j].equals(two.get(i)[0]) && !current.f1[j].equals(two.get(i)[1])) {
+                                    f1[j_index] = current.f1[j];
+                                    j_index++;
+                                }
+                            }
 
-                for (int i=0; i<one.size(); i++) { //up
-                    String[] f4 = current.f4.clone();
-                    String[] f3 = new String[current.f3.length+1];
-                    for (int j=0; j<current.f3.length; j++) {
-                        f3[j] = current.f3[j];
-                    }
-                    f3[f3.length-1] = one.get(i)[0];
-                    String[] f2 = new String[current.f2.length-1];
-                    int j_index = 0;
-                    for (int j=0; j<current.f2.length; j++) {
-                        if (!current.f2[j].equals(one.get(i)[0])) {
-                            f2[j_index] = current.f2[j];
-                            j_index++;
+                            Node candidate = new Node(f4, f3, f2, f1, 2, current.l + 1, smallest_n);
+                            if (candidate.legit) {
+                                newOnes.add(candidate);
+                            }
                         }
                     }
-                    String[] f1 = current.f1.clone();
 
-                    Node candidate = new Node(f4, f3, f2, f1, 3, current.l+1, smallest_n);
-                    if (candidate.legit) {
-                        newOnes.add(candidate);
+                    for (int i = 0; i < newOnes.size(); i++) {
+                        all.put(counter, newOnes.get(i));
+                        leaves.put(counter++, newOnes.get(i));
                     }
-                }
-                for (int i=0; i<one.size(); i++) { //down
-                    String[] f4 = current.f4.clone();
-                    String[] f3 = current.f3.clone();
-                    String[] f2 = new String[current.f2.length-1];
-                    int j_index = 0;
-                    for (int j=0; j<current.f2.length; j++) {
-                        if (!current.f2[j].equals(one.get(i)[0])) {
-                            f2[j_index] = current.f2[j];
-                            j_index++;
-                        }
-                    }
-                    String[] f1 = new String[current.f1.length+1];
-                    for (int j=0; j<current.f1.length; j++) {
-                        f1[j] = current.f1[j];
-                    }
-                    f1[f1.length-1] = one.get(i)[0];
+                    leaves.remove(smallest_n);
+                    break;
+                case 2:
+                    newOnes = new ArrayList<>();
 
+                    one = getCombinations(current.f2, 1);
 
-                    Node candidate = new Node(f4, f3, f2, f1, 1, current.l+1, smallest_n);
-                    if (candidate.legit) {
-                        newOnes.add(candidate);
-                    }
-                }
-
-                if (current.f1.length >= 2) {
-                    two = getCombinations(current.f2, 2);
-
-                    for (int i=0; i<two.size(); i++) { //up
+                    for (int i = 0; i < one.size(); i++) { //up
                         String[] f4 = current.f4.clone();
-                        String[] f3 = new String[current.f3.length+2];
-                        for (int j=0; j<current.f3.length; j++) {
+                        String[] f3 = new String[current.f3.length + 1];
+                        for (int j = 0; j < current.f3.length; j++) {
                             f3[j] = current.f3[j];
                         }
-                        f3[f3.length-2] = one.get(i)[0];
-                        f3[f3.length-1] = one.get(i)[1];
-                        String[] f2 = new String[current.f2.length-2];
+                        f3[f3.length - 1] = one.get(i)[0];
+                        String[] f2 = new String[current.f2.length - 1];
                         int j_index = 0;
-                        for (int j=0; j<current.f2.length; j++) {
-                            if (!current.f2[j].equals(one.get(i)[0]) && !current.f2[j].equals(one.get(i)[1])) {
+                        for (int j = 0; j < current.f2.length; j++) {
+                            if (!current.f2[j].equals(one.get(i)[0])) {
                                 f2[j_index] = current.f2[j];
                                 j_index++;
                             }
                         }
                         String[] f1 = current.f1.clone();
 
-                        Node candidate = new Node(f4, f3, f2, f1, 3, current.l+1, smallest_n);
+                        Node candidate = new Node(f4, f3, f2, f1, 3, current.l + 1, smallest_n);
                         if (candidate.legit) {
                             newOnes.add(candidate);
                         }
                     }
-                    for (int i=0; i<two.size(); i++) { //down
+                    for (int i = 0; i < one.size(); i++) { //down
                         String[] f4 = current.f4.clone();
                         String[] f3 = current.f3.clone();
-                        String[] f2 = new String[current.f2.length-2];
+                        String[] f2 = new String[current.f2.length - 1];
                         int j_index = 0;
-                        for (int j=0; j<current.f2.length; j++) {
-                            if (!current.f2[j].equals(one.get(i)[0]) && !current.f2[j].equals(one.get(i)[1])) {
+                        for (int j = 0; j < current.f2.length; j++) {
+                            if (!current.f2[j].equals(one.get(i)[0])) {
                                 f2[j_index] = current.f2[j];
                                 j_index++;
                             }
                         }
-                        String[] f1 = new String[current.f1.length+2];
-                        for (int j=0; j<current.f1.length; j++) {
+                        String[] f1 = new String[current.f1.length + 1];
+                        for (int j = 0; j < current.f1.length; j++) {
                             f1[j] = current.f1[j];
                         }
-                        f1[f1.length-2] = one.get(i)[0];
-                        f1[f1.length-1] = one.get(i)[1];
+                        f1[f1.length - 1] = one.get(i)[0];
 
 
-                        Node candidate = new Node(f4, f3, f2, f1, 1, current.l+1, smallest_n);
+                        Node candidate = new Node(f4, f3, f2, f1, 1, current.l + 1, smallest_n);
                         if (candidate.legit) {
                             newOnes.add(candidate);
                         }
                     }
-                }
 
-                for (int i=0; i<newOnes.size(); i++) {
-                    all.put(counter, newOnes.get(i));
-                    leaves.put(counter++, newOnes.get(i));
-                }
-                leaves.remove(smallest_n);
-                break;
-            case 3:
-                newOnes = new ArrayList<>();
+                    if (current.f2.length >= 2) {
+                        two = getCombinations(current.f2, 2);
 
-                one = getCombinations(current.f3, 1);
+                        for (int i = 0; i < two.size(); i++) { //up
+                            String[] f4 = current.f4.clone();
+                            String[] f3 = new String[current.f3.length + 2];
+                            for (int j = 0; j < current.f3.length; j++) {
+                                f3[j] = current.f3[j];
+                            }
+                            f3[f3.length - 2] = two.get(i)[0];
+                            f3[f3.length - 1] = two.get(i)[1];
+                            String[] f2 = new String[current.f2.length - 2];
+                            int j_index = 0;
+                            for (int j = 0; j < current.f2.length; j++) {
+                                if (!current.f2[j].equals(two.get(i)[0]) && !current.f2[j].equals(two.get(i)[1])) {
+                                    f2[j_index] = current.f2[j];
+                                    j_index++;
+                                }
+                            }
+                            String[] f1 = current.f1.clone();
 
-                for (int i=0; i<one.size(); i++) { //up
-                    String[] f4 = new String[current.f4.length+1];
-                    for (int j=0; j<current.f4.length; j++) {
-                        f4[j] = current.f4[j];
-                    }
-                    f4[f4.length-1] = one.get(i)[0];
-                    String[] f3 = new String[current.f3.length-1];
-                    int j_index = 0;
-                    for (int j=0; j<current.f3.length; j++) {
-                        if (!current.f3[j].equals(one.get(i)[0])) {
-                            f3[j_index] = current.f3[j];
-                            j_index++;
+                            Node candidate = new Node(f4, f3, f2, f1, 3, current.l + 1, smallest_n);
+                            if (candidate.legit) {
+                                newOnes.add(candidate);
+                            }
+                        }
+                        for (int i = 0; i < two.size(); i++) { //down
+                            String[] f4 = current.f4.clone();
+                            String[] f3 = current.f3.clone();
+                            String[] f2 = new String[current.f2.length - 2];
+                            int j_index = 0;
+                            for (int j = 0; j < current.f2.length; j++) {
+                                if (!current.f2[j].equals(two.get(i)[0]) && !current.f2[j].equals(two.get(i)[1])) {
+                                    f2[j_index] = current.f2[j];
+                                    j_index++;
+                                }
+                            }
+                            String[] f1 = new String[current.f1.length + 2];
+                            for (int j = 0; j < current.f1.length; j++) {
+                                f1[j] = current.f1[j];
+                            }
+                            f1[f1.length - 2] = two.get(i)[0];
+                            f1[f1.length - 1] = two.get(i)[1];
+
+
+                            Node candidate = new Node(f4, f3, f2, f1, 1, current.l + 1, smallest_n);
+                            if (candidate.legit) {
+                                newOnes.add(candidate);
+                            }
                         }
                     }
-                    String[] f2 = current.f2.clone();
-                    String[] f1 = current.f1.clone();
 
-                    Node candidate = new Node(f4, f3, f2, f1, 4, current.l+1, smallest_n);
-                    if (candidate.legit) {
-                        newOnes.add(candidate);
+                    for (int i = 0; i < newOnes.size(); i++) {
+                        all.put(counter, newOnes.get(i));
+                        leaves.put(counter++, newOnes.get(i));
                     }
-                }
-                for (int i=0; i<one.size(); i++) { //down
-                    String[] f4 = current.f4.clone();
-                    String[] f3 = new String[current.f3.length-1];
-                    int j_index = 0;
-                    for (int j=0; j<current.f3.length; j++) {
-                        if (!current.f3[j].equals(one.get(i)[0])) {
-                            f3[j_index] = current.f3[j];
-                            j_index++;
-                        }
-                    }
-                    String[] f2 = new String[current.f2.length+1];
-                    for (int j=0; j<current.f2.length; j++) {
-                        f2[j] = current.f2[j];
-                    }
-                    f2[f2.length-1] = one.get(i)[0];
-                    String[] f1 = current.f1.clone();
+                    leaves.remove(smallest_n);
+                    break;
+                case 3:
+                    newOnes = new ArrayList<>();
 
+                    one = getCombinations(current.f3, 1);
 
-                    Node candidate = new Node(f4, f3, f2, f1, 2, current.l+1, smallest_n);
-                    if (candidate.legit) {
-                        newOnes.add(candidate);
-                    }
-                }
-
-                if (current.f1.length >= 2) {
-                    two = getCombinations(current.f3, 2);
-
-                    for (int i=0; i<two.size(); i++) { //up
-                        String[] f4 = new String[current.f4.length+2];
-                        for (int j=0; j<current.f4.length; j++) {
+                    for (int i = 0; i < one.size(); i++) { //up
+                        String[] f4 = new String[current.f4.length + 1];
+                        for (int j = 0; j < current.f4.length; j++) {
                             f4[j] = current.f4[j];
                         }
-                        f4[f4.length-2] = one.get(i)[0];
-                        f4[f4.length-1] = one.get(i)[1];
-                        String[] f3 = new String[current.f3.length-2];
+                        f4[f4.length - 1] = one.get(i)[0];
+                        String[] f3 = new String[current.f3.length - 1];
                         int j_index = 0;
-                        for (int j=0; j<current.f3.length; j++) {
-                            if (!current.f3[j].equals(one.get(i)[0]) && !current.f3[j].equals(one.get(i)[1])) {
+                        for (int j = 0; j < current.f3.length; j++) {
+                            if (!current.f3[j].equals(one.get(i)[0])) {
                                 f3[j_index] = current.f3[j];
                                 j_index++;
                             }
@@ -439,108 +398,171 @@ public class Exercise2016_11 { //makes a arraylist of all combinations of len le
                         String[] f2 = current.f2.clone();
                         String[] f1 = current.f1.clone();
 
-                        Node candidate = new Node(f4, f3, f2, f1, 4, current.l+1, smallest_n);
+                        Node candidate = new Node(f4, f3, f2, f1, 4, current.l + 1, smallest_n);
                         if (candidate.legit) {
                             newOnes.add(candidate);
                         }
                     }
-                    for (int i=0; i<two.size(); i++) { //down
+                    for (int i = 0; i < one.size(); i++) { //down
                         String[] f4 = current.f4.clone();
-                        String[] f3 = new String[current.f3.length-2];
+                        String[] f3 = new String[current.f3.length - 1];
                         int j_index = 0;
-                        for (int j=0; j<current.f3.length; j++) {
-                            if (!current.f3[j].equals(one.get(i)[0]) && !current.f3[j].equals(one.get(i)[1])) {
+                        for (int j = 0; j < current.f3.length; j++) {
+                            if (!current.f3[j].equals(one.get(i)[0])) {
                                 f3[j_index] = current.f3[j];
                                 j_index++;
                             }
                         }
-                        String[] f2 = new String[current.f2.length+2];
-                        for (int j=0; j<current.f2.length; j++) {
+                        String[] f2 = new String[current.f2.length + 1];
+                        for (int j = 0; j < current.f2.length; j++) {
                             f2[j] = current.f2[j];
                         }
-                        f2[f2.length-2] = one.get(i)[0];
-                        f2[f2.length-1] = one.get(i)[1];
+                        f2[f2.length - 1] = one.get(i)[0];
                         String[] f1 = current.f1.clone();
 
 
-                        Node candidate = new Node(f4, f3, f2, f1, 2, current.l+1, smallest_n);
+                        Node candidate = new Node(f4, f3, f2, f1, 2, current.l + 1, smallest_n);
                         if (candidate.legit) {
                             newOnes.add(candidate);
                         }
                     }
-                }
 
-                for (int i=0; i<newOnes.size(); i++) {
-                    all.put(counter, newOnes.get(i));
-                    leaves.put(counter++, newOnes.get(i));
-                }
-                leaves.remove(smallest_n);
-                break;
-            case 4:
-                newOnes = new ArrayList<>();
+                    if (current.f3.length >= 2) {
+                        two = getCombinations(current.f3, 2);
 
-                one = getCombinations(current.f4, 1);
+                        for (int i = 0; i < two.size(); i++) { //up
+                            String[] f4 = new String[current.f4.length + 2];
+                            for (int j = 0; j < current.f4.length; j++) {
+                                f4[j] = current.f4[j];
+                            }
+                            f4[f4.length - 2] = two.get(i)[0];
+                            f4[f4.length - 1] = two.get(i)[1];
+                            String[] f3 = new String[current.f3.length - 2];
+                            int j_index = 0;
+                            for (int j = 0; j < current.f3.length; j++) {
+                                if (!current.f3[j].equals(two.get(i)[0]) && !current.f3[j].equals(two.get(i)[1])) {
+                                    f3[j_index] = current.f3[j];
+                                    j_index++;
+                                }
+                            }
+                            String[] f2 = current.f2.clone();
+                            String[] f1 = current.f1.clone();
 
-                for (int i=0; i<one.size(); i++) { //down
-                    String[] f4 = new String[current.f4.length-1];
-                    int j_index = 0;
-                    for (int j=0; j<current.f4.length; j++) {
-                        if (!current.f4[j].equals(one.get(i)[0])) {
-                            f4[j_index] = current.f4[j];
-                            j_index++;
+                            Node candidate = new Node(f4, f3, f2, f1, 4, current.l + 1, smallest_n);
+                            if (candidate.legit) {
+                                newOnes.add(candidate);
+                            }
+                        }
+                        for (int i = 0; i < two.size(); i++) { //down
+                            String[] f4 = current.f4.clone();
+                            String[] f3 = new String[current.f3.length - 2];
+                            int j_index = 0;
+                            for (int j = 0; j < current.f3.length; j++) {
+                                if (!current.f3[j].equals(two.get(i)[0]) && !current.f3[j].equals(two.get(i)[1])) {
+                                    f3[j_index] = current.f3[j];
+                                    j_index++;
+                                }
+                            }
+                            String[] f2 = new String[current.f2.length + 2];
+                            for (int j = 0; j < current.f2.length; j++) {
+                                f2[j] = current.f2[j];
+                            }
+                            f2[f2.length - 2] = two.get(i)[0];
+                            f2[f2.length - 1] = two.get(i)[1];
+                            String[] f1 = current.f1.clone();
+
+
+                            Node candidate = new Node(f4, f3, f2, f1, 2, current.l + 1, smallest_n);
+                            if (candidate.legit) {
+                                newOnes.add(candidate);
+                            }
                         }
                     }
-                    String[] f3 = new String[current.f3.length+1];
-                    for (int j=0; j<current.f3.length; j++) {
-                        f3[j] = current.f3[j];
+
+                    for (int i = 0; i < newOnes.size(); i++) {
+                        all.put(counter, newOnes.get(i));
+                        leaves.put(counter++, newOnes.get(i));
                     }
-                    f3[f3.length-1] = one.get(i)[0];
-                    String[] f2 = current.f2.clone();
-                    String[] f1 = current.f1.clone();
+                    leaves.remove(smallest_n);
+                    break;
+                case 4:
+                    newOnes = new ArrayList<>();
 
-                    Node candidate = new Node(f4, f3, f2, f1, 3, current.l+1, smallest_n);
-                    if (candidate.legit) {
-                        newOnes.add(candidate);
-                    }
-                }
+                    one = getCombinations(current.f4, 1);
 
-                if (current.f1.length >= 2) {
-                    two = getCombinations(current.f4, 2);
-
-                    for (int i=0; i<two.size(); i++) { //down
-                        String[] f4 = new String[current.f4.length-2];
+                    for (int i = 0; i < one.size(); i++) { //down
+                        String[] f4 = new String[current.f4.length - 1];
                         int j_index = 0;
-                        for (int j=0; j<current.f4.length; j++) {
-                            if (!current.f4[j].equals(two.get(i)[0]) && !current.f4[j].equals(two.get(i)[1])) {
+                        for (int j = 0; j < current.f4.length; j++) {
+                            if (!current.f4[j].equals(one.get(i)[0])) {
                                 f4[j_index] = current.f4[j];
                                 j_index++;
                             }
                         }
-                        String[] f3 = new String[current.f3.length+2];
-                        for (int j=0; j<current.f3.length; j++) {
+                        String[] f3 = new String[current.f3.length + 1];
+                        for (int j = 0; j < current.f3.length; j++) {
                             f3[j] = current.f3[j];
                         }
-                        f3[f3.length-2] = two.get(i)[0];
-                        f3[f3.length-1] = two.get(i)[1];
+                        f3[f3.length - 1] = one.get(i)[0];
                         String[] f2 = current.f2.clone();
                         String[] f1 = current.f1.clone();
 
-                        Node candidate = new Node(f4, f3, f2, f1, 3, current.l+1, smallest_n);
+                        Node candidate = new Node(f4, f3, f2, f1, 3, current.l + 1, smallest_n);
                         if (candidate.legit) {
                             newOnes.add(candidate);
                         }
                     }
-                }
 
-                for (int i=0; i<newOnes.size(); i++) {
-                    all.put(counter, newOnes.get(i));
-                    leaves.put(counter++, newOnes.get(i));
-                }
-                leaves.remove(smallest_n);
-                break;
+                    if (current.f4.length >= 2) {
+                        two = getCombinations(current.f4, 2);
+
+                        for (int i = 0; i < two.size(); i++) { //down
+                            String[] f4 = new String[current.f4.length - 2];
+                            int j_index = 0;
+                            for (int j = 0; j < current.f4.length; j++) {
+                                if (!current.f4[j].equals(two.get(i)[0]) && !current.f4[j].equals(two.get(i)[1])) {
+                                    f4[j_index] = current.f4[j];
+                                    j_index++;
+                                }
+                            }
+                            String[] f3 = new String[current.f3.length + 2];
+                            for (int j = 0; j < current.f3.length; j++) {
+                                f3[j] = current.f3[j];
+                            }
+                            f3[f3.length - 2] = two.get(i)[0];
+                            f3[f3.length - 1] = two.get(i)[1];
+                            String[] f2 = current.f2.clone();
+                            String[] f1 = current.f1.clone();
+
+                            Node candidate = new Node(f4, f3, f2, f1, 3, current.l + 1, smallest_n);
+                            if (candidate.legit) {
+                                newOnes.add(candidate);
+                            }
+                        }
+                    }
+
+                    for (int i = 0; i < newOnes.size(); i++) {
+                        Node n = newOnes.get(i);
+                        boolean exists = false;
+                        for (Map.Entry<Integer, Node> existent : all.entrySet()) {
+                            Node already = existent.getValue();
+                            if (Arrays.equals(n.f4, already.f4) &&
+                                    Arrays.equals(n.f3, already.f3) &&
+                                    Arrays.equals(n.f2, already.f2) &&
+                                    Arrays.equals(n.f1, already.f1) &&
+                                    n.e == already.e) {
+                                exists = true;
+                            }
+                        }
+                        if (!exists) {
+                            all.put(counter, newOnes.get(i));
+                            leaves.put(counter++, newOnes.get(i));
+                        }
+                    }
+                    leaves.remove(smallest_n);
+                    break;
+            }
         }
-
-        System.out.println(all.size() +" "+ leaves.size());
 
         //till now is one iteration (i think) now we just put this in a while loop
 
