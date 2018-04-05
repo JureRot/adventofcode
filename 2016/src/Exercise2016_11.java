@@ -173,11 +173,14 @@ public class Exercise2016_11 { //makes a arraylist of all combinations of len le
         }
         sc.close(); //input file not used in this exericse, we hard code the input
 
-        //all.put(0, new Node(new String[]{}, new String[]{"LG"}, new String[]{"HG"}, new String[]{"HM", "LM"}, 1, 0, -1));
-        //leaves.put(0, new Node(new String[]{}, new String[]{"LG"}, new String[]{"HG"}, new String[]{"HM", "LM"}, 1, 0, -1));
+        //testing
+        all.put(0, new Node(new String[]{}, new String[]{"LG"}, new String[]{"HG"}, new String[]{"HM", "LM"}, 1, 0, -1));
+        leaves.put(0, new Node(new String[]{}, new String[]{"LG"}, new String[]{"HG"}, new String[]{"HM", "LM"}, 1, 0, -1));
 
-        all.put(0, new Node(new String[]{}, new String[]{"TM"}, new String[]{"TG", "RG", "RM", "CG", "CM"}, new String[]{"SG", "SM", "PG", "PM"}, 1, 0, -1));
-        leaves.put(0, new Node(new String[]{}, new String[]{"TM"}, new String[]{"TG", "RG", "RM", "CG", "CM"}, new String[]{"SG", "SM", "PG", "PM"}, 1, 0, -1));
+        //all.put(0, new Node(new String[]{}, new String[]{"TM"}, new String[]{"TG", "RG", "RM", "CG", "CM"}, new String[]{"SG", "SM", "PG", "PM"}, 1, 0, -1));
+        //leaves.put(0, new Node(new String[]{}, new String[]{"TM"}, new String[]{"TG", "RG", "RM", "CG", "CM"}, new String[]{"SG", "SM", "PG", "PM"}, 1, 0, -1));
+
+        //DOESN'T WORK FAST ENOUGH FOR LARGER SETS. TRY SOMETHING ELSE
 
         int counter = 1;
 
