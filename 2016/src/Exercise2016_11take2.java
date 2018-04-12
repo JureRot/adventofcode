@@ -9,6 +9,8 @@ public class Exercise2016_11take2 {
         I think that implements all your hints which is kind of fun because the basic approach seems so different.
 
         -u/Tauren
+
+        če se ne motm preveč je to tko kt je blo zdej narjen, sam da bl otimiziran???
         */
     }
 }
