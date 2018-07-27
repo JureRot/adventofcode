@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class AoC2016_01 {
-    public static int[] makeMove(int x, int y, int d, String move) {
+    public static int[] makeMove(int x, int y, int d, String move) { // this is a simple version for the first part (makeMove2 is a bit more complicated, but does both parts at once)
         int[] output = new int[3];
 
         switch (d) {

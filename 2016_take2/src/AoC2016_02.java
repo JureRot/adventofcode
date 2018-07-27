@@ -1,6 +1,8 @@
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class AoC2016_02 {
@@ -13,6 +15,16 @@ public class AoC2016_02 {
             input.add(sc.nextLine());
         }
 
-        System.out.println(input.size());
+        // vars
+        //hashmap of int[] so you get 2D table of sorts wiht key of 1-9 so you get the graphing function of this also
+        //double nested for-loop with a counter to do the filling
+
+        int c = 1;
+        for(int j=0; j<3; j++) {
+            for (int i=0; i<3; i++) {
+                System.out.println(Integer.toString(i) + Integer.toString(j) + "-" + Integer.toString(c++));
+            }
+        }
     }
+
 }
