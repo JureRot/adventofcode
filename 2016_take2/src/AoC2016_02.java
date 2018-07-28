@@ -25,6 +25,8 @@ public class AoC2016_02 {
                 System.out.println(Integer.toString(i) + Integer.toString(j) + "-" + Integer.toString(c++));
             }
         }
+
+        //we dont need to use hasmpad, we can use a simple 2d int arraylist
     }
 
 }
