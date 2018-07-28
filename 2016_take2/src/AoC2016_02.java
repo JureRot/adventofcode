@@ -19,14 +19,24 @@ public class AoC2016_02 {
         //hashmap of int[] so you get 2D table of sorts wiht key of 1-9 so you get the graphing function of this also
         //double nested for-loop with a counter to do the filling
 
+        int[][] keypad = new int[3][3];
+
+
         int c = 1;
         for(int j=0; j<3; j++) {
             for (int i=0; i<3; i++) {
-                System.out.println(Integer.toString(i) + Integer.toString(j) + "-" + Integer.toString(c++));
+                //System.out.println(Integer.toString(i) + Integer.toString(j) + "-" + Integer.toString(c++));
+                keypad[j][i] = c++;
             }
         }
 
-        //we dont need to use hasmpad, we can use a simple 2d int arraylist
+        for (int i=0; i<keypad.length; i++) {
+            for (int j=0; j<keypad[i].length; j++) {
+                System.out.println(Integer.toString(i) + Integer.toString(j) + "-" + Integer.toString(keypad[i][j]));
+            }
+        }
+
+        //we dont need to use hasmpad, we can use a simple 2d int array
     }
 
 }
