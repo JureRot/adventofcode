@@ -243,7 +243,7 @@ public class AoC2016_01 {
         int x = 0;
         int y = 0;
         int d = 0; //direction (0=N, 1=E, 2=S, 3=W)
-        //we could do justs int x, y, d, = 0;
+        //we could do justs int x = y = d = 0;
 
         //second part
         ArrayList<int[]> visited = new ArrayList<>();
