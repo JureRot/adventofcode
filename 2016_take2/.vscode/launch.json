@@ -6,12 +6,12 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Debug (Launch)-AoC2016_01",
+            "name": "Debug (Launch)",
             "request": "launch",
             "cwd": "${workspaceFolder}",
             "console": "internalConsole",
             "stopOnEntry": false,
-            "mainClass": "AoC2016_01",
+            "mainClass": "",
             "args": ""
         },
         {

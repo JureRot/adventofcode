@@ -228,6 +228,7 @@ public class AoC2016_01 {
     }
 
     public static void main(String[] args) throws IOException {
+        
         String input = ""; //we (not even) reserve space for the input var
 
         Scanner sc = new Scanner(new File("input2016_01.txt")); //using scanner we read every line in the input file
