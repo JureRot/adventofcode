@@ -63,3 +63,22 @@ torej:
 
 
 first we call a chekcer function to check if move legit, than we actually call the move funct
+
+NOPE, TO NE DELA, KER SE LAHKO -1 IN 1 SEŠTEJETA V 0 V RESNIC STA PA ABS(2)7
+TREBA BO Z ABSOLUTNO OMEJIT, POL PA PREVER KJE JE (2*X + Y AL KEJ TAZGA)
+
+norm1(x,y) = 2 -> 2*x + y
+0,2   -> 2
+0,-2  -> -2
+2,0   -> 4
+-2,0  -> -4
+1,1   -> 3
+1,-1  -> 1
+-1,1  -> -1
+-1,-1 -> -3
+
+    -4
+  -3  -1
+-2      +2
+  +1  +3
+    +4
