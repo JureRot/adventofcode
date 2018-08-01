@@ -58,7 +58,7 @@ class AoC2016_02 {
         return output;
     }
 
-    public static int[] checkSecond (int x, int y, char move) { //2016_02analysis has explanations
+    public static int[] checkSecond (int x, int y, char move) { //2016_02analysis has more explanations
         int[] output = new int[2]; //for safekeeping
         output[0] = x;
         output[1] = y;
@@ -136,7 +136,7 @@ class AoC2016_02 {
         //idea
         //hashmap of int[] so you get 2D table of sorts wiht key of 1-9 so you get the graphing function of this also
         //double nested for-loop with a counter to do the filling
-        //we dont need to use hasmpad, we can use a simple 2d int array
+        //we dont need to use hasmpap, we can use a simple 2d int array
 
         int[][] keypad = new int[3][3];
 
@@ -174,21 +174,21 @@ class AoC2016_02 {
             for (int j=0; j<line.length(); j++) { //for every char
                 char command = line.charAt(j);
 
-                int[] update = makeMove(x, y, command); //we make a move and update the values
+                int[] update = makeMove(x, y, command); //we make a move (method checks if the move is possible)
 
-                x = update[0];
+                x = update[0]; //and we update the values
                 y = update[1];
 
                 
                 //second part
-                int[] update2 = checkSecond(x2, y2, command);
+                int[] update2 = checkSecond(x2, y2, command); //we pass the values to the method that checks if move is possible and if it is, it automatically calls the makeMove2 metod
                 
-                x2 = update2[0];
+                x2 = update2[0]; //and we update this values too
                 y2 = update2[1];
 
             }
             combination += Integer.toString(keypad[x][y]); //after each line we remember the position / keypad value
-            combination2 += keypad2[x2][y2]; //we save strings here, so we dont need to parse to string
+            combination2 += keypad2[x2][y2]; //we saved strings here, so we dont need to parse to string
         }
 
         System.out.println("1. the bathroom code is: " + combination);

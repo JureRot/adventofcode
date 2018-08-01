@@ -21,8 +21,8 @@ R -> y+1
 
 
 0,0     0,1     (0,2)   0,3     0,4
-1,0     (1,1)	(1,2)	(1,3)	1,4
-(2,0)   (2,1)	(2,2)	(2,3)	(2,4)
+1,0     (1,1)	  (1,2)	  (1,3)	  1,4
+(2,0)   (2,1)	  (2,2)	  (2,3)	  (2,4)
 3,0     (3,1)   (3,2)   (3,3)   3,4
 4,0     4,1     (4,2)   4,3     4,4
 
@@ -34,48 +34,18 @@ x-2, y-2
         1,-1    1,0     1,1
                 2,0
 
-x+y ne sme bit -2 al pa 2
-
-če -2 :
-ne morš gor pa levo
-+ če x = 0 ne morš dol
-+ če y = 0 ne morš desno
-
-če 2:
-ne morš dol pa desno
-+ če x = 0 ne morš gor
-+ če y = 0 ne morš levo
-
-torej:
-(x-2)+(y-2) = r
-
-če r == 0 ali r==1 r==-1, naredi potezo
-
-če r == -2;
-	če x == 0; lahko desno
-	če y == 0; lahko dol
-	sicer; lahko dol ali desno
-
-če r == -2;
-	če x == 0; lahko levo
-	če y == 0; lahko gor
-	sicer; lahko gor ali levo
-
-
-first we call a chekcer function to check if move legit, than we actually call the move funct
-
-NOPE, TO NE DELA, KER SE LAHKO -1 IN 1 SEŠTEJETA V 0 V RESNIC STA PA ABS(2)7
 TREBA BO Z ABSOLUTNO OMEJIT, POL PA PREVER KJE JE (2*X + Y AL KEJ TAZGA)
 
-norm1(x,y) = 2 -> 2*x + y
-0,2   -> 2
-0,-2  -> -2
-2,0   -> 4
--2,0  -> -4
-1,1   -> 3
-1,-1  -> 1
--1,1  -> -1
--1,-1 -> -3
+r = 2*x + y (we make a simple function so we have nonrepeating outputs)
+possible outcomes -> r (possible direction)
+0,-2  -> -2 (right)
+0,2   -> 2 (left)
+-2,0  -> -4 (down)
+2,0   -> 4 (up)
+1,-1  -> 1 (up, right)
+1,1   -> 3 (up, left)
+-1,-1 -> -3 (down right)
+-1,1  -> -1 (down, left)
 
     -4
   -3  -1
