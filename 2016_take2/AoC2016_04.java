@@ -1,5 +1,9 @@
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Scanner;
@@ -34,9 +38,35 @@ class AoC2016_04 {
         return output;
     }
 
+    public static String CaesarCypher(String input, int n) {
+        String output = "";
+
+        for (int i=0; i<input.length(); i++) {
+            int ch = (int) input.charAt(i); //get ascii value (Character.getNumericValue(ch) does something different)
+            
+            if (ch == 45) { //if character "-" change it to " "
+                ch = 32;
+            } else {
+                ch -= 97; //we normalize ('a' = 97, so it becomes 0)
+                ch += n; //we add the sector ID
+                ch %= 26; //we use mod so if we went three and a half times aroud, we count only the half thing
+                ch += 97; //and we denormalize the values
+            }
+
+            output += (char) ch; //append to the output the char representation of the ascii code
+        }
+
+        output += " - " + Integer.toString(n);
+
+        return output;
+    }
+
     public static void main(String[] args) throws IOException {
         //vars
         int sumIDs = 0;
+
+        //second part
+        ArrayList<String> decodedLines = new ArrayList<>();
 
 
         Scanner sc = new Scanner(new File("input2016_04.txt"));
@@ -55,11 +85,15 @@ class AoC2016_04 {
             }
 
             //second part
-            // rawname -> caesar_cypher(sectorID), save into file
-            //search words "North Pole"
+            decodedLines.add(CaesarCypher(nameRaw, Integer.parseInt(parts[1]))); //we add the decoded name to a list
         }
         sc.close();
 
+        Path file = Paths.get("output2016_04.txt");
+        Files.write(file, decodedLines, Charset.forName("UTF-8"));
+
         System.out.println("1. the sum of the sector IDs of real rooms: " + Integer.toString(sumIDs));
+
+        System.out.println("2. the room names are saved into 'output2016_04.txt' file. Search parameter: 'northpole object storage'");
     }
 }
