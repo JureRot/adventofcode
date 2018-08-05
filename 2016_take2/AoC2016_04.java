@@ -62,6 +62,8 @@ class AoC2016_04 {
     }
 
     public static void main(String[] args) throws IOException {
+        long startTime = System.nanoTime();
+
         //vars
         int sumIDs = 0;
 
@@ -89,11 +91,14 @@ class AoC2016_04 {
         }
         sc.close();
 
-        Path file = Paths.get("output2016_04.txt");
-        Files.write(file, decodedLines, Charset.forName("UTF-8"));
+        Path file = Paths.get("output2016_04.txt"); //gets / creates a path to the file you want to write to
+        Files.write(file, decodedLines, Charset.forName("UTF-8")); //to the path, every element in list is a line and the charset is utf-8
 
         System.out.println("1. the sum of the sector IDs of real rooms: " + Integer.toString(sumIDs));
 
         System.out.println("2. the room names are saved into 'output2016_04.txt' file. Search parameter: 'northpole object storage'");
+
+        long endTime = System.nanoTime();
+        System.out.println("Time: " + Double.toString((endTime-startTime)/1000000000.0) + " s");
     }
 }
