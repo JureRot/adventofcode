@@ -39,11 +39,35 @@ class AoC2016_07 {
         return false;
     }
 
+    public static boolean supportsSSL (String input) {
+        //we check if there is pattern ABA[BAB] or [ABA]BAB
+
+        Pattern patternFirst = Pattern.compile("(.)((?!\\1).)\\1[^\\[\\]]*\\[[^\\[\\]]*\\2\\1\\2[^\\[\\]]*\\]"); //ABA[BAB] pattern
+        Pattern patternSecond = Pattern.compile("\\[[^\\[\\]]*(.)((?!\\1).)\\1[^\\[\\]]*\\][^\\[\\]]*\\2\\1\\2"); //[ABA]BAB pattern
+
+        //DOESNT WORK RIGHT ([^\\[\\]]* SEEMS TO BE THE PROBLEM, MAYBE SHOULD BE .*, BUT THAT IS NOT RIGHT ALSO...)
+        // something with ^_$(from beginning till end), a|b (a or b), *? (lazy conditioner (shortest match, not lingest))
+        // there are no [_[_]_] occurences, everything is [_]_[_] (can have -[]-, -[]-[]- or -[]-[]-[]- )
+        // maybe seperate inside and outside and join them with didivder (|) and than just check if ABA.*|.*BAB ?
+
+        Matcher matchFirst = patternFirst.matcher(input);
+        Matcher matchSecond = patternSecond.matcher(input);
+
+        if (matchFirst.find() || matchSecond.find()) { // if any of the patterns is fulfilled
+            return true;
+        }
+
+        return false;
+    }
+
     public static void main(String[] args) throws IOException {
         long startTime = System.nanoTime();
 
         //vars
         int numTLS = 0;
+
+        //second part
+        int numSSl = 0;
 
 
         Scanner sc = new Scanner(new File("input2016_07.txt"));
@@ -54,12 +78,19 @@ class AoC2016_07 {
                 numTLS++;
             }
 
+            //second part
+            if (supportsSSL(line)) {
+                numSSl++;
+            }
+
         }
         sc.close();
 
         System.out.println("1. number of IPs supporting TLS: " + Integer.toString(numTLS));
         
+        System.out.println("2. number of IPs supporting SSl: " + Integer.toString(numSSl));
+        
         long endTime = System.nanoTime();
-        System.out.println("Time: " + Double.toString((endTime-startTime)/1000000000.0));
+        System.out.println("Time: " + Double.toString((endTime-startTime)/1000000000.0) + " s");
     }
 }
