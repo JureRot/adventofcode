@@ -42,21 +42,37 @@ class AoC2016_07 {
     public static boolean supportsSSL (String input) {
         //we check if there is pattern ABA[BAB] or [ABA]BAB
 
-        Pattern patternFirst = Pattern.compile("(.)((?!\\1).)\\1[^\\[\\]]*\\[[^\\[\\]]*\\2\\1\\2[^\\[\\]]*\\]"); //ABA[BAB] pattern
-        Pattern patternSecond = Pattern.compile("\\[[^\\[\\]]*(.)((?!\\1).)\\1[^\\[\\]]*\\][^\\[\\]]*\\2\\1\\2"); //[ABA]BAB pattern
+        //we will separate the inside and outside parts and than put than search for ABA in the first part and BAB in the second
+        //there probably are other ways of checking (^_$ (from start to finish), a|b (or), *? (lazy condition))
 
-        //DOESNT WORK RIGHT ([^\\[\\]]* SEEMS TO BE THE PROBLEM, MAYBE SHOULD BE .*, BUT THAT IS NOT RIGHT ALSO...)
-        // something with ^_$(from beginning till end), a|b (a or b), *? (lazy conditioner (shortest match, not lingest))
-        // there are no [_[_]_] occurences, everything is [_]_[_] (can have -[]-, -[]-[]- or -[]-[]-[]- )
-        // maybe seperate inside and outside and join them with didivder (|) and than just check if ABA.*|.*BAB ?
+        String outside = ""; // we reserve all the necessary vars
+        String inside = "";
+        int begin = 0;
+        int start = 0;
+        int end = 0;
 
-        Matcher matchFirst = patternFirst.matcher(input);
-        Matcher matchSecond = patternSecond.matcher(input);
+        Pattern patternInside = Pattern.compile("\\[[^\\]]*\\]"); //we find the inside [] matches
+        Matcher matchInside = patternInside.matcher(input);
 
-        if (matchFirst.find() || matchSecond.find()) { // if any of the patterns is fulfilled
+        while (matchInside.find()) {
+            start = matchInside.start(); //for every match we set start and end of match (this inclides [ and ])
+            end = matchInside.end();
+
+            outside += input.substring(begin, start); //outside is always first (so from begining till start of match)
+            inside += input.substring(start+1, end-1); //inside is between the start and end (excluding [ and ])
+
+            begin = end; //and than we set the new begining for the next match withing the same line
+        }
+        outside += input.substring(begin); //at the end we add the remaining outusde match (it always ends with oustide part)
+
+        String separate = outside + "|" + inside; //we join the two strings with separator
+
+        Pattern pattern = Pattern.compile("(.)((?!\\1).)\\1.*\\|.*\\2\\1\\2"); //than we search for ABA|BAB match
+        Matcher match = pattern.matcher(separate);
+
+        if (match.find()) { //if we find it, we return true; else, false
             return true;
         }
-
         return false;
     }
 
@@ -79,7 +95,7 @@ class AoC2016_07 {
             }
 
             //second part
-            if (supportsSSL(line)) {
+            if (supportsSSL(line)) { //change here
                 numSSl++;
             }
 
