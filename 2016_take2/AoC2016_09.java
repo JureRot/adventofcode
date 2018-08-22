@@ -84,7 +84,7 @@ class AoC2016_09 {
 
         System.out.println("1. Decompressed length: " + l);
 
-        System.out.println("2. Decompressed lenght ¸: " + l2);
+        System.out.println("2. Decompressed lenght: " + l2);
 
         long endTime = System.nanoTime();
         System.out.println("Time: " + Double.toString((endTime-startTime)/1000000000.0) + " s");
