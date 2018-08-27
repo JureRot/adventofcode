@@ -54,6 +54,20 @@ class Node {
         }
         return true;
     }
+
+    public int[] getAll() {
+        int[] output = new int[5];
+        output[0] = this.e;
+        for (int j=0; j<this.state[0].length; j++) {
+            for (int i=0; i<this.state.length; i++) {
+                if (this.state[i][j]) {
+                    output[j+1] = i;
+                }
+            }
+        }
+        
+        return output;
+    }
 }
 
 class AoC2016_11 {
@@ -284,6 +298,7 @@ class AoC2016_11 {
         int elevator = 0;
         LinkedList<Node> queue = new LinkedList<>();
         boolean found = false;
+        LinkedList<int[]> visited = new LinkedList<>();
 
         /* //even though we have a input file, we won't use it, we will just hard-code the input
         Scanner sc = new Scanner(new File("input2016_11.txt"));
@@ -313,17 +328,37 @@ class AoC2016_11 {
         queue.add(root);
 
         //TO DELUJE EXTRA POČAS, PROBI MOGOČ NA KOMPU, ČE BO KEJ HITREJ, SAM DVOMM ZA VEČJI UNOS (treba proonant podobne pare)
-        for (int k=0; k<1000000; k++) {
+        //maybe make note of [elevator,HGfloor, HCfloor, LGfloor, LCfloor] and if it already exists, we dont include it
+        //on top if [e, x, y, z, q] exists, we dont include [e, z, q, x, y]
+        for (int k=0; k<10000; k++) {
             ArrayList<Node> move = makeMove(queue.remove());
             for (int i=0; i<move.size(); i++) {
-                if (move.get(i).checkLegal()) {
-                    queue.add(move.get(i));
+                Node m = move.get(i);
+                if (m.checkLegal()) {
+                    boolean repeat = false;
+                    int[] mSig = m.getAll();
+                    int[] mMirror = new int[mSig.length];
+                    mMirror[0] = mSig[0];
+                    mMirror[1] = mSig[3];
+                    mMirror[2] = mSig[4];
+                    mMirror[3] = mSig[1];
+                    mMirror[4] = mSig[2];
+                    for (int j=0; j<visited.size(); j++) {
+                        if (Arrays.equals(mSig, visited.get(i))) {
+                            if (Arrays.equals(mMirror, visited.get(i))) {
+                                repeat = true;
+                            }
+                        }
+                    }
+                    if (!repeat) {
+                        queue.add(m);
+                    }
                 }
 
                 System.out.println(queue.size());
                 
-                if (move.get(i).checkGoal()) {
-                    System.out.println("1. the number of steps:" + move.get(i).pathLen);
+                if (m.checkGoal()) {
+                    System.out.println("1. the number of steps:" + m.pathLen);
                     found = true;
                 }
             }
