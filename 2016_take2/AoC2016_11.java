@@ -34,10 +34,10 @@ class Node {
             }
         }
 
-        Node grandParent = this.parent.parent;
+        /*Node grandParent = this.parent.parent;
         if (Arrays.deepEquals(this.state, grandParent.state) && this.e==grandParent.e) { //if this node is same as its grandparent (we just made a step forward and a step back) we have a false state
             return false;
-        }
+        }*/
 
         return true;
     }
@@ -330,8 +330,9 @@ class AoC2016_11 {
         //TO DELUJE EXTRA POČAS, PROBI MOGOČ NA KOMPU, ČE BO KEJ HITREJ, SAM DVOMM ZA VEČJI UNOS (treba proonant podobne pare)
         //maybe make note of [elevator,HGfloor, HCfloor, LGfloor, LCfloor] and if it already exists, we dont include it
         //on top if [e, x, y, z, q] exists, we dont include [e, z, q, x, y]
-        for (int k=0; k<10000; k++) {
-            ArrayList<Node> move = makeMove(queue.remove());
+        for (int k=0; k<100; k++) {
+            ArrayList<Node> move = makeMove(queue.peek());
+
             for (int i=0; i<move.size(); i++) {
                 Node m = move.get(i);
                 if (m.checkLegal()) {
@@ -344,24 +345,26 @@ class AoC2016_11 {
                     mMirror[3] = mSig[1];
                     mMirror[4] = mSig[2];
                     for (int j=0; j<visited.size(); j++) {
-                        if (Arrays.equals(mSig, visited.get(i))) {
-                            if (Arrays.equals(mMirror, visited.get(i))) {
+                        if (Arrays.equals(mSig, visited.get(j))) {
+                            /*if (Arrays.equals(mMirror, visited.get(j))) {
                                 repeat = true;
-                            }
+                            }*/
+                            repeat = true;
+                            System.out.println("already " + k +" "+ i);
                         }
                     }
                     if (!repeat) {
                         queue.add(m);
+                        visited.add(m.getAll());
                     }
                 }
-
-                System.out.println(queue.size());
                 
                 if (m.checkGoal()) {
                     System.out.println("1. the number of steps:" + m.pathLen);
                     found = true;
                 }
             }
+            queue.remove();
         }
 
         //idea: bfs with agressive pruning (even the mirrored pairs or states) using linkedlist of nodes / states
@@ -373,6 +376,9 @@ class AoC2016_11 {
         //put them to linkedlist
         //check if first in list is goal
         //repeat
+
+
+        //NEKI NE DELA PROU, NEKI PREVEČ REŽE, SAM JE OBETAVNO
 
 
         long endTime = System.nanoTime();

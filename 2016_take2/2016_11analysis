@@ -1,0 +1,17 @@
+2016_11 optimizations
+
+If you can move two items upstairs, don't bother bringing one item upstaris.
+If you can move one item downstairs, dont' bother bringing two items downstairs.
+(but still try to move items downstaris even if you can move items upstaris)
+
+Let's say I'm on a floor with a HG and HC and a LG and LC.
+And let's say that I've decided that my next move will be to move one of the two chips up a floor.
+Does it matter WHICH chip i move?
+
+ESSENTIAL:
+All pairs are interchangeable
+the following two states are equivalent:
+HG@0, HC@1, LG@2, LC@2
+LG@0, LC@1, HG@2, HC@2
+(=HG@2, HC@2, LG@0, LC@1)
+prune any state equivalent to (not just equal to) a state you have already seen!
