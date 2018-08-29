@@ -1,12 +1,12 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
 class Node {
     public boolean[][] s; //state
     //0-3 for floors 1-4 [CG, CC, PG, PC, RG, RC, SG, SC, TG, TC]
-    public Node parent; //for checking if this node is same as grandparent (is this needed if we check for it in visited???)
     public int e; //elevator
     public int pathLen;
 
@@ -46,13 +46,13 @@ class Node {
         return true; //if we dont trip anywhere, we have goal state
     }
 
-    public int[] getAll() {
-        int[] output = new int[this.s[0].length+1];
-        output[0] = this.e;
+    public String getAll() {
+        String output = "";
+        output += this.e; //first we add current floor number to the output
         for (int j=0; j<this.s[0].length; j++) { //for every cell
             for (int i=0; i<this.s.length; i++) { //for every floor
                 if (this.s[i][j]) { //if element is here
-                    output[j+1] = i; //change ouput for the item (item cell +1 (because of e)) to the floor number
+                    output += i; //we add the floor number to the output
                 }
             }
         }
@@ -267,7 +267,7 @@ class AoC2016_11rewrite {
         //we don't prune illegal states here, so we can insure we don't have up1 and down1 empty on floors 1 and 2 (second and third) because we use this fact as a floor determiner in pruneMoves()
     }
 
-    public static Node[] pruneMoves(LinkedList<int[]> visited, ArrayList<ArrayList<Node>> moves) {
+    public static Node[] pruneMoves(LinkedList<String> visited, ArrayList<ArrayList<Node>> moves) {
         //moves format: [[up1], [up2], [down1], [down2]]
 
         //first we test if node legal, than we prune it according to visited, than extra optimizations (need to know the floor)
@@ -294,7 +294,7 @@ class AoC2016_11rewrite {
             }
         }
 
-        //check if already visited
+        /*//check if already visited //THIS SHOULD BE DONE WITH HashSet (but cant be done if visited is int[], maybe too string???)
         for (int k=0; k<visited.size(); k++) { //for every element in visited
             int[] v = visited.get(k);
             for (int i=0; i<moves.size(); i++) { //for every combo (up1, up2, down1, down2)
@@ -309,6 +309,22 @@ class AoC2016_11rewrite {
                 }
             }
         }
+        //this does work, but very slow, and it doesnt get any faster the longer it runs
+        */
+
+        //check if already visisted
+        for (int i=0; i<moves.size(); i++) { //for every combo (up1, up2, down1, down2)
+            ArrayList<Node> combo = moves.get(i);
+            int j = 0;
+            while (j<combo.size()) { //for every (new) Node within that combo
+                if (visited.contains(combo.get(j).getAll())) { //if visited already contains the signiture of new node, we remove it
+                    combo.remove(j);
+                } else { //else, we move to the next one
+                    j++;
+                }
+            }
+        }
+        //this is blazzing fast compared to the upper approach
 
         //extra optimizations
         /* a)
@@ -376,7 +392,7 @@ class AoC2016_11rewrite {
         //0-3 for floors 1-4 [CG, CC, PG, PC, RG, RC, SG, SC, TG, TC]
         int elevator = 0;
         LinkedList<Node> queue = new LinkedList<>();
-        LinkedList<int[]> visited = new LinkedList<>();
+        LinkedList<String> visited = new LinkedList<>();
         boolean found = false;
 
         //even tho we have input file, we wont use it, we will just hard-code the input into input array
@@ -413,7 +429,7 @@ class AoC2016_11rewrite {
         input[0][3] = true;
         input[1][0] = true;
         input[2][2] = true;
-        
+    
 
         Node root = new Node(input, elevator, 0);
 
@@ -421,6 +437,8 @@ class AoC2016_11rewrite {
         visited.add(root.getAll());
 
         while (!found) {
+            System.out.println(visited.size());
+
             ArrayList<ArrayList<Node>> moves = makeMoves(queue.remove()); //we make all possible moves
             //<<up1>, <up2>, <down1>, <down2>>
 
