@@ -1,7 +1,7 @@
 2016_11 optimizations
 
 If you can move two items upstairs, don't bother bringing one item upstaris.
-If you can move one item downstairs, dont' bother bringing two items downstairs.
+If you can move one item downstairs, don't bother bringing two items downstairs.
 (but still try to move items downstaris even if you can move items upstaris)
 
 Let's say I'm on a floor with a HG and HC and a LG and LC.

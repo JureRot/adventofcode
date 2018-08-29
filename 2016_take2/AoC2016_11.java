@@ -5,14 +5,14 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Scanner;
 
-class Node {
+class Node_old { //rename for compatibility sake (so we can create new class Node in rewrite)
     public boolean[][] state;
     //0-3 for floors 1-4, [hgen, hchip, lgen, lchip];
-    public Node parent;
+    public Node_old parent;
     public int e;
     public int pathLen;
 
-    public Node(boolean[][] s, int e) {
+    public Node_old(boolean[][] s, int e) {
         this.state = s;
         this.e = e;
     }
@@ -71,8 +71,8 @@ class Node {
 }
 
 class AoC2016_11 {
-    public static ArrayList<Node> makeMove (Node n) {
-        ArrayList<Node> temp = new ArrayList<>();
+    public static ArrayList<Node_old> makeMove (Node_old n) {
+        ArrayList<Node_old> temp = new ArrayList<>();
         //boolean[][] s = n.state; // NOT A GOOD COPY (NEED FOR-FOR LOOP) ((is this even needed???))
         int e = n.e;
         
@@ -89,7 +89,7 @@ class AoC2016_11 {
 
                         mod[e][i] = false; //we change the choosen elements to the next state
                         mod[e+1][i] = true;
-                        Node modified = new Node(mod, e+1); //we create a new node and add the curret node as a parent
+                        Node_old modified = new Node_old(mod, e+1); //we create a new node and add the curret node as a parent
                         modified.parent = n;
                         modified.pathLen = n.pathLen+1;
                         temp.add(modified); //we add it into temp (all possible (even if illegal) moves)
@@ -111,7 +111,7 @@ class AoC2016_11 {
                             mod[e+1][i] = true;
                             mod[e][j] = false;
                             mod[e+1][j] = true;
-                            Node modified = new Node(mod, e+1); //create new node and add n as a parent
+                            Node_old modified = new Node_old(mod, e+1); //create new node and add n as a parent
                             modified.parent = n;
                             modified.pathLen = n.pathLen+1;
                             temp.add(modified); //and add it to temp
@@ -132,14 +132,14 @@ class AoC2016_11 {
 
                         mod[e][i] = false; //we modify, create and add the element for up
                         mod[e+1][i] = true;
-                        Node modified1 = new Node(mod, e+1);
+                        Node_old modified1 = new Node_old(mod, e+1);
                         modified1.parent = n;
                         modified1.pathLen = n.pathLen+1;
                         temp.add(modified1);
 
                         mod[e+1][i] = false; //and than the same for down (including rollbacking the modification for up)
                         mod[e-1][i] = true;
-                        Node modified2 = new Node(mod, e-1); //here e different)
+                        Node_old modified2 = new Node_old(mod, e-1); //here e different)
                         modified2.parent = n;
                         modified2.pathLen = n.pathLen+1;
                         temp.add(modified2);
@@ -162,7 +162,7 @@ class AoC2016_11 {
                             mod[e+1][i] = true;
                             mod[e][j] = false;
                             mod[e+1][j] = true;
-                            Node modified1 = new Node(mod, e+1);
+                            Node_old modified1 = new Node_old(mod, e+1);
                             modified1.parent = n;
                             modified1.pathLen = n.pathLen+1;
                             temp.add(modified1);
@@ -171,7 +171,7 @@ class AoC2016_11 {
                             mod[e-1][i] = true;
                             mod[e+1][j] = false;
                             mod[e-1][j] = true;
-                            Node modified2 = new Node(mod, e-1); //here e different)
+                            Node_old modified2 = new Node_old(mod, e-1); //here e different)
                             modified2.parent = n;
                             modified2.pathLen = n.pathLen+1;
                             temp.add(modified2);
@@ -193,14 +193,14 @@ class AoC2016_11 {
 
                         mod[e][i] = false; //we modify, create and add the element for up
                         mod[e+1][i] = true;
-                        Node modified1 = new Node(mod, e+1);
+                        Node_old modified1 = new Node_old(mod, e+1);
                         modified1.parent = n;
                         modified1.pathLen = n.pathLen+1;
                         temp.add(modified1);
 
                         mod[e+1][i] = false; //and than the same for down (including rollbacking the modification for up)
                         mod[e-1][i] = true;
-                        Node modified2 = new Node(mod, e-1); //here e different)
+                        Node_old modified2 = new Node_old(mod, e-1); //here e different)
                         modified2.parent = n;
                         modified2.pathLen = n.pathLen+1;
                         temp.add(modified2);
@@ -223,7 +223,7 @@ class AoC2016_11 {
                             mod[e+1][i] = true;
                             mod[e][j] = false;
                             mod[e+1][j] = true;
-                            Node modified1 = new Node(mod, e+1);
+                            Node_old modified1 = new Node_old(mod, e+1);
                             modified1.parent = n;
                             modified1.pathLen = n.pathLen+1;
                             temp.add(modified1);
@@ -232,7 +232,7 @@ class AoC2016_11 {
                             mod[e-1][i] = true;
                             mod[e+1][j] = false;
                             mod[e-1][j] = true;
-                            Node modified2 = new Node(mod, e-1); //here e different)
+                            Node_old modified2 = new Node_old(mod, e-1); //here e different)
                             modified2.parent = n;
                             modified2.pathLen = n.pathLen+1;
                             temp.add(modified2);
@@ -254,7 +254,7 @@ class AoC2016_11 {
 
                         mod[e][i] = false; //we change the choosen elements to the next state
                         mod[e-1][i] = true;
-                        Node modified = new Node(mod, e-1); //we create a new node and add the curret node as a parent
+                        Node_old modified = new Node_old(mod, e-1); //we create a new node and add the curret node as a parent
                         modified.parent = n;
                         modified.pathLen = n.pathLen+1;
                         temp.add(modified); //we add it into temp (all possible (even if illegal) moves)
@@ -276,7 +276,7 @@ class AoC2016_11 {
                             mod[e-1][i] = true;
                             mod[e][j] = false;
                             mod[e-1][j] = true;
-                            Node modified = new Node(mod, e-1); //create new node and add n as a parent
+                            Node_old modified = new Node_old(mod, e-1); //create new node and add n as a parent
                             modified.parent = n;
                             modified.pathLen = n.pathLen+1;
                             temp.add(modified); //and add it to temp
@@ -296,7 +296,7 @@ class AoC2016_11 {
         //vars
         boolean[][] starting = new boolean[4][4];
         int elevator = 0;
-        LinkedList<Node> queue = new LinkedList<>();
+        LinkedList<Node_old> queue = new LinkedList<>();
         boolean found = false;
         LinkedList<int[]> visited = new LinkedList<>();
 
@@ -321,7 +321,7 @@ class AoC2016_11 {
         starting[1][0] = true;
         starting[2][2] = true;
 
-        Node root = new Node(starting, elevator);
+        Node_old root = new Node_old(starting, elevator);
         root.parent = root;
         root.pathLen = 0;
 
@@ -331,10 +331,10 @@ class AoC2016_11 {
         //maybe make note of [elevator,HGfloor, HCfloor, LGfloor, LCfloor] and if it already exists, we dont include it
         //on top if [e, x, y, z, q] exists, we dont include [e, z, q, x, y]
         for (int k=0; k<100; k++) {
-            ArrayList<Node> move = makeMove(queue.peek());
+            ArrayList<Node_old> move = makeMove(queue.peek());
 
             for (int i=0; i<move.size(); i++) {
-                Node m = move.get(i);
+                Node_old m = move.get(i);
                 if (m.checkLegal()) {
                     boolean repeat = false;
                     int[] mSig = m.getAll();
