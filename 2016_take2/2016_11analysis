@@ -15,3 +15,36 @@ HG@0, HC@1, LG@2, LC@2
 LG@0, LC@1, HG@2, HC@2
 (=HG@2, HC@2, LG@0, LC@1)
 prune any state equivalent to (not just equal to) a state you have already seen!
+
+abcd
+    = cdab
+
+abcdef  
+    = cdabef
+    = efcdab
+    = abefcd
+
+abcdef
+abefcd
+cdabef
+    cdefab //is this too much??? (or is it that ANY pairs are exchangeable)
+    efabcd
+efcdab
+
+
+abcdefgh
+    = cdabefgh
+        = cdabghef
+    = efcdabgh
+        = efghabcd
+    = ghcdefab
+        = ghefcdab
+    = abefcdgh
+        = (ghefcdab)
+    = abghefcd
+        = (efghabcd)
+    = abcdghef
+        = (cdabghef)
+
+abcdefghij
+    = all permutations of pairs (recursively)

@@ -46,7 +46,7 @@ class Node {
         return true; //if we dont trip anywhere, we have goal state
     }
 
-    public String getAll() {
+    public String getSignature() {
         String output = "";
         output += this.e; //first we add current floor number to the output
         for (int j=0; j<this.s[0].length; j++) { //for every cell
@@ -267,18 +267,29 @@ class AoC2016_11rewrite {
         //we don't prune illegal states here, so we can insure we don't have up1 and down1 empty on floors 1 and 2 (second and third) because we use this fact as a floor determiner in pruneMoves()
     }
 
+    public static ArrayList<String> pairs(String prefix, String str, ArrayList<String> perms) {
+        if (str.length()<4) { //if we have less than two pairs (4 itmes) we cant make a swap
+            perms.add(prefix + str); //so we add this complete permutation to perms and return
+        } else { //else, we go over each pair (i+=2) and call this function again with extended prefix (old + current pair) and a new string (excluding current pair)
+            for (int i=0; i<str.length(); i+=2) {
+                perms = pairs(prefix + str.substring(i, i+2), str.substring(0, i) + str.substring(i+2), perms); //we add it to perms
+            }
+        }
+        return perms;
+    }
+
     public static Node[] pruneMoves(LinkedList<String> visited, ArrayList<ArrayList<Node>> moves) {
         //moves format: [[up1], [up2], [down1], [down2]]
 
         //first we test if node legal, than we prune it according to visited, than extra optimizations (need to know the floor)
 
-        int floor = 0; //-1=first; 1=fourth; 0=second/third
+        /*int floor = 0; //-1=first; 1=fourth; 0=second/third //we dont need this
 
         if (moves.get(2).size() == 0) { //if down1 empty we have floor0
             floor = -1;
         } else if (moves.get(0).size() == 0) { //if up1 empty we have floor3
             floor = 1;
-        } //else we keep it at 0 (=floor1/floor2)
+        } //else we keep it at 0 (=floor1/floor2)*/
 
 
         //check if even legal
@@ -317,7 +328,7 @@ class AoC2016_11rewrite {
             ArrayList<Node> combo = moves.get(i);
             int j = 0;
             while (j<combo.size()) { //for every (new) Node within that combo
-                if (visited.contains(combo.get(j).getAll())) { //if visited already contains the signiture of new node, we remove it
+                if (visited.contains(combo.get(j).getSignature())) { //if visited already contains the signiture of new node, we remove it
                     combo.remove(j);
                 } else { //else, we move to the next one
                     j++;
@@ -352,7 +363,7 @@ class AoC2016_11rewrite {
         (=HG@2, HC@2, LG@0, LC@1)
         prune any state equivalent to (not just equal to) a state you have already seen!
         */
-        //[a, b, c, d] = [c, d, a, b]
+        //abcd = cdab (Signiture is actualy a string, not int[] anymore)
         /*[a, b, c, d, e, f, g, h, i, j]
         = [c, d, a, b, e, f, g, h, i, j]
         = [e, f, c, d, a, b, g, h, i, j]
@@ -362,6 +373,8 @@ class AoC2016_11rewrite {
         there can also be more than one pair exchange (ALL pairs are intercangeable)
         all the permutations of pairs to check (hmm)
         */
+
+        //ANOTHER  OPTIMIZATIN: DO EVERYTHING UNDER ONE FOR-WHILE LOOP NEST (NOT EVERY THING UNDER ITS OWN)
 
         int counter = 0;
         for (int i=0; i<moves.size(); i++) {
@@ -434,7 +447,7 @@ class AoC2016_11rewrite {
         Node root = new Node(input, elevator, 0);
 
         queue.add(root);
-        visited.add(root.getAll());
+        visited.add(root.getSignature());
 
         while (!found) {
             System.out.println(visited.size());
@@ -446,7 +459,7 @@ class AoC2016_11rewrite {
 
             for (int i=0; i<pruned.length; i++) { //we add them to queue and to visited locations
                 queue.add(pruned[i]);
-                visited.add(pruned[i].getAll());
+                visited.add(pruned[i].getSignature());
 
                 if (pruned[i].checkGoal()) { //if we got to the end, we output and end
                     System.out.println("1. number of steps to solve: " + pruned[i].pathLen);
@@ -454,6 +467,12 @@ class AoC2016_11rewrite {
                 }
             }
         }
+
+        System.out.println(pairs("", "abcdefghij", new ArrayList<String>()).size());
+
+        //WHY THE FUCK IS VISITED LINKEDLIST AND NOT HASHSET
+
+        //TO-DO : REWRITE2, CHANGE visited TO HASHSET, MAKE pruneMoves INTO ONE FOR-WHILE LOOP NEST, GET IT WORKING!!!!!
 
         //we need  make move function and to prune that output (maybe with another function)
         //probably makemove func divided into 4 parts (up1, up2, down1, down2) or 2 (up1, up2 / down1, down2) for 0 and 3 floor
