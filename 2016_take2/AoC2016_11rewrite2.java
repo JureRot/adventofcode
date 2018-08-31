@@ -494,7 +494,7 @@ class AoC2016_11rewrite2 {
 
         //vars
         boolean[][] input = new boolean[4][10]; //reserve space for table //TO BE CHANGED TO [4][10]
-        //0-3 for floors 1-4 [CG, CC, PG, PC, RG, RC, SG, SC, TG, TC]
+        //0-3 for floors 1-4 [CG, CC, PG, PC, RG, RC, SG, SC, TG, TC](EG, EC, DG, DC)
         int elevator = 0;
         LinkedList<Node> queue = new LinkedList<>();
         HashSet<String> visited = new HashSet();
@@ -560,6 +560,10 @@ class AoC2016_11rewrite2 {
             }
         }
 
+        //TO-DO
+        //check if it runs for part 2, on desktop for a few minutes (if not, make it so)
+        //cleanup (coments, and unused parts)
+        //try to make pruneMoves_new work (one one for-while nest)
 
 
         long endTime = System.nanoTime();
