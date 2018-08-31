@@ -396,7 +396,6 @@ class AoC2016_11rewrite2 {
         return output;
     }
 
-
     public static void main(String[] args) {
         long startTime = System.nanoTime();
 
@@ -453,7 +452,7 @@ class AoC2016_11rewrite2 {
             }
         }
 
-
+         //FOR TESTING
         //second part (works but takes like 5 mins)
         //we do the same thing as for part 1, just a little bigger
         boolean[][] input2 = new boolean[4][14];
