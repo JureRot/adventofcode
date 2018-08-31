@@ -1,16 +1,14 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.List;
 
-class Node_old2 {
+class Node {
     public boolean[][] s; //state
     //0-3 for floors 1-4 [CG, CC, PG, PC, RG, RC, SG, SC, TG, TC]
     public int e; //elevator
     public int pathLen;
 
-    public Node_old2(boolean[][] state, int elevator, int pathLength) {
+    public Node(boolean[][] state, int elevator, int pathLength) {
         this.s = state;
         this.e = elevator;
         this.pathLen = pathLength;
@@ -60,13 +58,13 @@ class Node_old2 {
     }
 }
 
-class AoC2016_11rewrite {
-    public static ArrayList<ArrayList<Node_old2>> makeMoves(Node_old2 n) {
-        ArrayList<ArrayList<Node_old2>> output = new ArrayList<ArrayList<Node_old2>>(); //always 4 inner Node[] inside Node[][] (up1, up2, down1, down2) (their individual lenghts are different)
-        ArrayList<Node_old2> up1 = new ArrayList<>();
-        ArrayList<Node_old2> up2 = new ArrayList<>();
-        ArrayList<Node_old2> down1 = new ArrayList<>();
-        ArrayList<Node_old2> down2 = new ArrayList<>();
+class AoC2016_11rewrite2 {
+    public static ArrayList<ArrayList<Node>> makeMoves(Node n) {
+        ArrayList<ArrayList<Node>> output = new ArrayList<ArrayList<Node>>(); //always 4 inner Node[] inside Node[][] (up1, up2, down1, down2) (their individual lenghts are different)
+        ArrayList<Node> up1 = new ArrayList<>();
+        ArrayList<Node> up2 = new ArrayList<>();
+        ArrayList<Node> down1 = new ArrayList<>();
+        ArrayList<Node> down2 = new ArrayList<>();
         int e = n.e; //so we dont call it all the time (not really necessary)
 
         switch(e) {
@@ -83,7 +81,7 @@ class AoC2016_11rewrite {
 
                         mod1[e][i] = false; //we modify, and add new element for up (we can only go up)
                         mod1[e+1][i] = true;
-                        up1.add(new Node_old2(mod1, e+1, n.pathLen+1));
+                        up1.add(new Node(mod1, e+1, n.pathLen+1));
                     }
                 }
 
@@ -103,7 +101,7 @@ class AoC2016_11rewrite {
                             mod1[e+1][i] = true;
                             mod1[e][j] = false;
                             mod1[e+1][j] = true;
-                            up2.add(new Node_old2(mod1, e+1, n.pathLen+1));
+                            up2.add(new Node(mod1, e+1, n.pathLen+1));
                         }
                     }
                 }
@@ -125,11 +123,11 @@ class AoC2016_11rewrite {
 
                         mod1[e][i] = false; //we modify, and add new element for up
                         mod1[e+1][i] = true;
-                        up1.add(new Node_old2(mod1, e+1, n.pathLen+1));
+                        up1.add(new Node(mod1, e+1, n.pathLen+1));
 
                         mod2[e][i] = false; //we do the same for down
                         mod2[e-1][i] = true;
-                        down1.add(new Node_old2(mod2, e-1, n.pathLen+1));
+                        down1.add(new Node(mod2, e-1, n.pathLen+1));
                     }
                 }
 
@@ -151,13 +149,13 @@ class AoC2016_11rewrite {
                             mod1[e+1][i] = true;
                             mod1[e][j] = false;
                             mod1[e+1][j] = true;
-                            up2.add(new Node_old2(mod1, e+1, n.pathLen+1));
+                            up2.add(new Node(mod1, e+1, n.pathLen+1));
 
                             mod2[e][i] = false; //we do the same for down
                             mod2[e-1][i] = true;
                             mod2[e][j] = false;
                             mod2[e-1][j] = true;
-                            down2.add(new Node_old2(mod2, e-1, n.pathLen+1));
+                            down2.add(new Node(mod2, e-1, n.pathLen+1));
                         }
                     }
                 }
@@ -179,11 +177,11 @@ class AoC2016_11rewrite {
 
                         mod1[e][i] = false; //we modify, and add new element for up
                         mod1[e+1][i] = true;
-                        up1.add(new Node_old2(mod1, e+1, n.pathLen+1));
+                        up1.add(new Node(mod1, e+1, n.pathLen+1));
 
                         mod2[e][i] = false; //we do the same for down
                         mod2[e-1][i] = true;
-                        down1.add(new Node_old2(mod2, e-1, n.pathLen+1));
+                        down1.add(new Node(mod2, e-1, n.pathLen+1));
                     }
                 }
 
@@ -205,13 +203,13 @@ class AoC2016_11rewrite {
                             mod1[e+1][i] = true;
                             mod1[e][j] = false;
                             mod1[e+1][j] = true;
-                            up2.add(new Node_old2(mod1, e+1, n.pathLen+1));
+                            up2.add(new Node(mod1, e+1, n.pathLen+1));
 
                             mod2[e][i] = false; //we do the same for down
                             mod2[e-1][i] = true;
                             mod2[e][j] = false;
                             mod2[e-1][j] = true;
-                            down2.add(new Node_old2(mod2, e-1, n.pathLen+1));
+                            down2.add(new Node(mod2, e-1, n.pathLen+1));
                         }
                     }
                 }
@@ -231,7 +229,7 @@ class AoC2016_11rewrite {
 
                         mod2[e][i] = false; //we can only go down
                         mod2[e-1][i] = true;
-                        down1.add(new Node_old2(mod2, e-1, n.pathLen+1));
+                        down1.add(new Node(mod2, e-1, n.pathLen+1));
                     }
                 }
 
@@ -250,7 +248,7 @@ class AoC2016_11rewrite {
                             mod2[e-1][i] = true;
                             mod2[e][j] = false;
                             mod2[e-1][j] = true;
-                            down2.add(new Node_old2(mod2, e-1, n.pathLen+1));
+                            down2.add(new Node(mod2, e-1, n.pathLen+1));
                         }
                     }
                 }
@@ -278,7 +276,7 @@ class AoC2016_11rewrite {
         return perms;
     }
 
-    public static Node_old2[] pruneMoves(LinkedList<String> visited, ArrayList<ArrayList<Node_old2>> moves) {
+    public static Node[] pruneMoves(HashSet<String> visited, ArrayList<ArrayList<Node>> moves) {
         //moves format: [[up1], [up2], [down1], [down2]]
 
         //first we test if node legal, than we prune it according to visited, than extra optimizations (need to know the floor)
@@ -294,7 +292,7 @@ class AoC2016_11rewrite {
 
         //check if even legal
         for (int i=0; i<moves.size(); i++) { //for every combo (up1, up2, down1, down2)
-            ArrayList<Node_old2> combo = moves.get(i);
+            ArrayList<Node> combo = moves.get(i);
             int j=0;
             while (j<combo.size()) { //for every (new) Node within that combo
                 if (!combo.get(j).checkLegal()) { //if Node not legal, we remove it
@@ -325,7 +323,7 @@ class AoC2016_11rewrite {
 
         //check if already visisted
         for (int i=0; i<moves.size(); i++) { //for every combo (up1, up2, down1, down2)
-            ArrayList<Node_old2> combo = moves.get(i);
+            ArrayList<Node> combo = moves.get(i);
             int j = 0;
             while (j<combo.size()) { //for every (new) Node within that combo
                 if (visited.contains(combo.get(j).getSignature())) { //if visited already contains the signiture of new node, we remove it
@@ -373,22 +371,116 @@ class AoC2016_11rewrite {
         there can also be more than one pair exchange (ALL pairs are intercangeable)
         all the permutations of pairs to check (hmm)
         */
+        for (int i=0; i<moves.size(); i++) { //for every combo (up1, up2, down1, down2)
+            ArrayList<Node> combo = moves.get(i);
+            int j=0;
+            while (j<combo.size()) { //for every (new) Node within that combo
+                String sig = combo.get(j).getSignature();
+
+                ArrayList<String> perms = pairs("", sig.substring(1), new ArrayList<String>()); //we create all mirrors of the state (all pairs are interchangeable) (substring is to remove the elevator number)
+                boolean match = false;
+
+                for (int k=0; k<perms.size(); k++) {
+                    if (visited.contains(sig.charAt(0) + perms.get(k))) { //we add the elevator back
+                        match = true;
+                    }
+                }
+
+                if (match) {
+                    combo.remove(j);
+                } else {
+                    j++;
+                }
+            }
+        }
 
         //ANOTHER  OPTIMIZATIN: DO EVERYTHING UNDER ONE FOR-WHILE LOOP NEST (NOT EVERY THING UNDER ITS OWN)
 
         int counter = 0;
         for (int i=0; i<moves.size(); i++) {
-            ArrayList<Node_old2> combo = moves.get(i);
+            ArrayList<Node> combo = moves.get(i);
             for (int j=0; j<combo.size(); j++) {
                 counter++;
             }
         }
 
-        Node_old2[] output = new Node_old2[counter];
+        Node[] output = new Node[counter];
         
         counter = 0;
         for (int i=0; i<moves.size(); i++) {
-            ArrayList<Node_old2> combo = moves.get(i);
+            ArrayList<Node> combo = moves.get(i);
+            for (int j=0; j<combo.size(); j++) {
+                output[counter++] = combo.get(j);
+            }
+        }
+
+        return output;
+    }
+
+    public static Node[] pruneMoves_new(HashSet<String> visited, ArrayList<ArrayList<Node>> moves) { //SEEMS TO PRUNE TOO MUCH???
+        //moves format: [[up1], [up2], [down1], [down2]]
+
+        if (moves.get(1).size()>0) { //if we can move two items up (up2), dont bother bringing one item up
+            for (int i=0; i<moves.get(0).size(); i++) { //we remove all up1
+                moves.get(0).remove(0); //we always remove first one, but too it len times
+                System.out.println("up");
+            }
+        }
+
+        if (moves.get(2).size()>0) { //if we can move one item down (down1), dont bother brigin two items down
+            for (int i=0; i<moves.get(3).size(); i++) {
+                moves.get(3).remove(0);
+                System.out.println("down");
+            }
+        }
+        //we do those one first because are move dependant (not combo) (we need to look at it from the above (the whole move), not inside up1 or up2 etc.)
+
+        for (int i=0; i<moves.size(); i++) { //for every combo (up1, up2, down1 and down2)
+            ArrayList<Node> combo = moves.get(i);
+            int j=0;
+            while (j<combo.size()) { //for every (new) Node within that combo
+
+                if (!combo.get(j).checkLegal()) { //if state not legal, we remove it
+                    combo.remove(j);
+                    System.out.println("legal");
+                } else {
+                    String sig = combo.get(j).getSignature();
+                    ArrayList<String> perms = pairs("", sig.substring(1), new ArrayList<String>()); //we create all mirrors of the state (pairs are interchangeable) (substring to remove the elevator number)
+                    //this includes the original string (combo.get(j).getSignature()) itself, so will check for if already visited also
+
+                    boolean match = false;
+
+                    for (int k=0; k<perms.size(); k++) { //if any of the perms match something in visited, we mark it as match
+                        if (visited.contains(sig.charAt(0) + perms.get(k))) { //we add the e back
+                            match = true;
+                            break;
+                        }
+                    }
+
+                    if (match) { //if we got a match, we remove this specific move
+                        combo.remove(j);
+                        System.out.println("");
+                    } else { //else, we go to the next one
+                        j++;
+                    }
+
+                }
+            }
+        }
+
+        int counter = 0;
+        for (int i=0; i<moves.size(); i++) {
+            ArrayList<Node> combo = moves.get(i);
+            for (int j=0; j<combo.size(); j++) {
+                counter++;
+            }
+        }
+
+        Node[] output = new Node[counter];
+        
+        counter = 0;
+        for (int i=0; i<moves.size(); i++) {
+            ArrayList<Node> combo = moves.get(i);
             for (int j=0; j<combo.size(); j++) {
                 output[counter++] = combo.get(j);
             }
@@ -401,11 +493,11 @@ class AoC2016_11rewrite {
         long startTime = System.nanoTime();
 
         //vars
-        boolean[][] input = new boolean[4][4]; //reserve space for table //TO BE CHANGED TO [4][10]
+        boolean[][] input = new boolean[4][10]; //reserve space for table //TO BE CHANGED TO [4][10]
         //0-3 for floors 1-4 [CG, CC, PG, PC, RG, RC, SG, SC, TG, TC]
         int elevator = 0;
-        LinkedList<Node_old2> queue = new LinkedList<>();
-        LinkedList<String> visited = new LinkedList<>();
+        LinkedList<Node> queue = new LinkedList<>();
+        HashSet<String> visited = new HashSet();
         boolean found = false;
 
         //even tho we have input file, we wont use it, we will just hard-code the input into input array
@@ -416,7 +508,7 @@ class AoC2016_11rewrite {
         The third floor contains a thulium-compatible microchip.
         The fourth floor contains nothing relevant.
         */
-        /*
+        
         input[0][6] = true; //SG
         input[0][7] = true; //SC
         input[0][2] = true; //PG
@@ -427,7 +519,7 @@ class AoC2016_11rewrite {
         input[1][0] = true; //CG
         input[1][1] = true; //CC
         input[2][9] = true; //TC
-        */
+        
 
 
         /* //testing
@@ -437,14 +529,14 @@ class AoC2016_11rewrite {
         The fourth floor contains nothing relevant.
         */
         //[HG; HC; LG; LC]
-        
+        /*
         input[0][1] = true;
         input[0][3] = true;
         input[1][0] = true;
         input[2][2] = true;
-    
+        */
 
-        Node_old2 root = new Node_old2(input, elevator, 0);
+        Node root = new Node(input, elevator, 0);
 
         queue.add(root);
         visited.add(root.getSignature());
@@ -452,10 +544,10 @@ class AoC2016_11rewrite {
         while (!found) {
             System.out.println(visited.size());
 
-            ArrayList<ArrayList<Node_old2>> moves = makeMoves(queue.remove()); //we make all possible moves
+            ArrayList<ArrayList<Node>> moves = makeMoves(queue.remove()); //we make all possible moves
             //<<up1>, <up2>, <down1>, <down2>>
 
-            Node_old2[] pruned = pruneMoves(visited, moves); //we remove the illegal and repeating moves
+            Node[] pruned = pruneMoves(visited, moves); //we remove the illegal and repeating moves
 
             for (int i=0; i<pruned.length; i++) { //we add them to queue and to visited locations
                 queue.add(pruned[i]);
@@ -468,14 +560,7 @@ class AoC2016_11rewrite {
             }
         }
 
-        System.out.println(pairs("", "abcdefghij", new ArrayList<String>()).size());
 
-        //WHY THE FUCK IS VISITED LINKEDLIST AND NOT HASHSET
-
-        //TO-DO : REWRITE2, CHANGE visited TO HASHSET, MAKE pruneMoves INTO ONE FOR-WHILE LOOP NEST, GET IT WORKING!!!!!
-
-        //we need  make move function and to prune that output (maybe with another function)
-        //probably makemove func divided into 4 parts (up1, up2, down1, down2) or 2 (up1, up2 / down1, down2) for 0 and 3 floor
 
         long endTime = System.nanoTime();
         System.out.println("Time: " + Double.toString((endTime-startTime)/1000000000.0) + " s");
