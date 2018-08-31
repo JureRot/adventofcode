@@ -417,83 +417,12 @@ class AoC2016_11rewrite2 {
         return output;
     }
 
-    public static Node[] pruneMoves_new(HashSet<String> visited, ArrayList<ArrayList<Node>> moves) { //SEEMS TO PRUNE TOO MUCH???
-        //moves format: [[up1], [up2], [down1], [down2]]
-
-        if (moves.get(1).size()>0) { //if we can move two items up (up2), dont bother bringing one item up
-            for (int i=0; i<moves.get(0).size(); i++) { //we remove all up1
-                moves.get(0).remove(0); //we always remove first one, but too it len times
-                System.out.println("up");
-            }
-        }
-
-        if (moves.get(2).size()>0) { //if we can move one item down (down1), dont bother brigin two items down
-            for (int i=0; i<moves.get(3).size(); i++) {
-                moves.get(3).remove(0);
-                System.out.println("down");
-            }
-        }
-        //we do those one first because are move dependant (not combo) (we need to look at it from the above (the whole move), not inside up1 or up2 etc.)
-
-        for (int i=0; i<moves.size(); i++) { //for every combo (up1, up2, down1 and down2)
-            ArrayList<Node> combo = moves.get(i);
-            int j=0;
-            while (j<combo.size()) { //for every (new) Node within that combo
-
-                if (!combo.get(j).checkLegal()) { //if state not legal, we remove it
-                    combo.remove(j);
-                    System.out.println("legal");
-                } else {
-                    String sig = combo.get(j).getSignature();
-                    ArrayList<String> perms = pairs("", sig.substring(1), new ArrayList<String>()); //we create all mirrors of the state (pairs are interchangeable) (substring to remove the elevator number)
-                    //this includes the original string (combo.get(j).getSignature()) itself, so will check for if already visited also
-
-                    boolean match = false;
-
-                    for (int k=0; k<perms.size(); k++) { //if any of the perms match something in visited, we mark it as match
-                        if (visited.contains(sig.charAt(0) + perms.get(k))) { //we add the e back
-                            match = true;
-                            break;
-                        }
-                    }
-
-                    if (match) { //if we got a match, we remove this specific move
-                        combo.remove(j);
-                        System.out.println("");
-                    } else { //else, we go to the next one
-                        j++;
-                    }
-
-                }
-            }
-        }
-
-        int counter = 0;
-        for (int i=0; i<moves.size(); i++) {
-            ArrayList<Node> combo = moves.get(i);
-            for (int j=0; j<combo.size(); j++) {
-                counter++;
-            }
-        }
-
-        Node[] output = new Node[counter];
-        
-        counter = 0;
-        for (int i=0; i<moves.size(); i++) {
-            ArrayList<Node> combo = moves.get(i);
-            for (int j=0; j<combo.size(); j++) {
-                output[counter++] = combo.get(j);
-            }
-        }
-
-        return output;
-    }
 
     public static void main(String[] args) {
         long startTime = System.nanoTime();
 
         //vars
-        boolean[][] input = new boolean[4][10]; //reserve space for table //TO BE CHANGED TO [4][10]
+        boolean[][] input = new boolean[4][10]; //reserve space for table //TO BE CHANGED TO [4][10] (or [4][14])
         //0-3 for floors 1-4 [CG, CC, PG, PC, RG, RC, SG, SC, TG, TC](EG, EC, DG, DC)
         int elevator = 0;
         LinkedList<Node> queue = new LinkedList<>();
@@ -519,6 +448,13 @@ class AoC2016_11rewrite2 {
         input[1][0] = true; //CG
         input[1][1] = true; //CC
         input[2][9] = true; //TC
+
+        //second part
+        //input[0][10] = true; //EG
+        //input[0][11] = true; //EC
+        //input[0][12] = true; //DG
+        //input[0][13] = true; //DC
+        //works but takes like 5 mins
         
 
 
@@ -542,7 +478,7 @@ class AoC2016_11rewrite2 {
         visited.add(root.getSignature());
 
         while (!found) {
-            System.out.println(visited.size());
+            //System.out.println(visited.size());
 
             ArrayList<ArrayList<Node>> moves = makeMoves(queue.remove()); //we make all possible moves
             //<<up1>, <up2>, <down1>, <down2>>
