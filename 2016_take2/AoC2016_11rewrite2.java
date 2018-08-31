@@ -423,10 +423,10 @@ class AoC2016_11rewrite2 {
 
         //vars
         boolean[][] input = new boolean[4][10]; //reserve space for table //TO BE CHANGED TO [4][10] (or [4][14])
-        //0-3 for floors 1-4 [CG, CC, PG, PC, RG, RC, SG, SC, TG, TC](EG, EC, DG, DC)
+        //0-3 for floors 1-4 [CG, CC, PG, PC, RG, RC, SG, SC, TG, TC]
         int elevator = 0;
         LinkedList<Node> queue = new LinkedList<>();
-        HashSet<String> visited = new HashSet();
+        HashSet<String> visited = new HashSet<>();
         boolean found = false;
 
         //even tho we have input file, we wont use it, we will just hard-code the input into input array
@@ -449,29 +449,7 @@ class AoC2016_11rewrite2 {
         input[1][1] = true; //CC
         input[2][9] = true; //TC
 
-        //second part
-        //input[0][10] = true; //EG
-        //input[0][11] = true; //EC
-        //input[0][12] = true; //DG
-        //input[0][13] = true; //DC
-        //works but takes like 5 mins
         
-
-
-        /* //testing
-        The first floor contains a hydrogen-compatible microchip and a lithium-compatible microchip.
-        The second floor contains a hydrogen generator.
-        The third floor contains a lithium generator.
-        The fourth floor contains nothing relevant.
-        */
-        //[HG; HC; LG; LC]
-        /*
-        input[0][1] = true;
-        input[0][3] = true;
-        input[1][0] = true;
-        input[2][2] = true;
-        */
-
         Node root = new Node(input, elevator, 0);
 
         queue.add(root);
@@ -496,9 +474,59 @@ class AoC2016_11rewrite2 {
             }
         }
 
+
+
+        //second part (works but takes like 5 mins)
+        boolean[][] input2 = new boolean[4][14]; //reserve space for table
+        //0-3 for floors 1-4 [CG, CC, PG, PC, RG, RC, SG, SC, TG, TC, EG, EC, DG, DC]
+        int elevator2 = 0;
+        LinkedList<Node> queue2 = new LinkedList<>();
+        HashSet<String> visited2 = new HashSet<>();
+        boolean found2 = false;
+
+        input2[0][6] = true; //SG //we make the same table as before
+        input2[0][7] = true; //SC
+        input2[0][2] = true; //PG
+        input2[0][3] = true; //PC
+        input2[1][8] = true; //TG
+        input2[1][4] = true; //RG
+        input2[1][5] = true; //RC
+        input2[1][0] = true; //CG
+        input2[1][1] = true; //CC
+        input2[2][9] = true; //TC
+
+        input2[0][10] = true; //EG //and add the new items
+        input2[0][11] = true; //EC
+        input2[0][12] = true; //DG
+        input2[0][13] = true; //DC
+
+
+        Node root2 = new Node(input2, elevator2, 0);
+
+        queue2.add(root2);
+        visited2.add(root2.getSignature());
+
+        while (!found2) {
+            //System.out.println(visited.size());
+
+            ArrayList<ArrayList<Node>> moves = makeMoves(queue2.remove()); //we make all possible moves
+            //<<up1>, <up2>, <down1>, <down2>>
+
+            Node[] pruned = pruneMoves(visited2, moves); //we remove the illegal and repeating moves
+
+            for (int i=0; i<pruned.length; i++) { //we add them to queue and to visited locations
+                queue2.add(pruned[i]);
+                visited2.add(pruned[i].getSignature());
+
+                if (pruned[i].checkGoal()) { //if we got to the end, we output and end
+                    System.out.println("2. number of steps to solve with extra objects: " + pruned[i].pathLen);
+                    found2 = true;
+                }
+            }
+        }
+        
+
         //TO-DO
-        //check if it runs for part 2, on desktop for a few minutes (if not, make it so)
-        //cleanup (coments, and unused parts)
         //try to make pruneMoves_new work (one one for-while nest)
 
 
