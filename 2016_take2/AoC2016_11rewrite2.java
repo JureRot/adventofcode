@@ -279,17 +279,6 @@ class AoC2016_11rewrite2 {
     public static Node[] pruneMoves(HashSet<String> visited, ArrayList<ArrayList<Node>> moves) {
         //moves format: [[up1], [up2], [down1], [down2]]
 
-        //first we test if node legal, than we prune it according to visited, than extra optimizations (need to know the floor)
-
-        /*int floor = 0; //-1=first; 1=fourth; 0=second/third //we dont need this
-
-        if (moves.get(2).size() == 0) { //if down1 empty we have floor0
-            floor = -1;
-        } else if (moves.get(0).size() == 0) { //if up1 empty we have floor3
-            floor = 1;
-        } //else we keep it at 0 (=floor1/floor2)*/
-
-
         //check if even legal
         for (int i=0; i<moves.size(); i++) { //for every combo (up1, up2, down1, down2)
             ArrayList<Node> combo = moves.get(i);
@@ -360,16 +349,6 @@ class AoC2016_11rewrite2 {
         LG@0, LC@1, HG@2, HC@2
         (=HG@2, HC@2, LG@0, LC@1)
         prune any state equivalent to (not just equal to) a state you have already seen!
-        */
-        //abcd = cdab (Signiture is actualy a string, not int[] anymore)
-        /*[a, b, c, d, e, f, g, h, i, j]
-        = [c, d, a, b, e, f, g, h, i, j]
-        = [e, f, c, d, a, b, g, h, i, j]
-        = [g, h, c, d, e, f, a, b, i, j]
-        = [i ,j, c, d, e, f, g, h, a, b]
-        and many many more
-        there can also be more than one pair exchange (ALL pairs are intercangeable)
-        all the permutations of pairs to check (hmm)
         */
         for (int i=0; i<moves.size(); i++) { //for every combo (up1, up2, down1, down2)
             ArrayList<Node> combo = moves.get(i);
@@ -475,16 +454,16 @@ class AoC2016_11rewrite2 {
         }
 
 
-
         //second part (works but takes like 5 mins)
-        boolean[][] input2 = new boolean[4][14]; //reserve space for table
+        //we do the same thing as for part 1, just a little bigger
+        boolean[][] input2 = new boolean[4][14];
         //0-3 for floors 1-4 [CG, CC, PG, PC, RG, RC, SG, SC, TG, TC, EG, EC, DG, DC]
         int elevator2 = 0;
         LinkedList<Node> queue2 = new LinkedList<>();
         HashSet<String> visited2 = new HashSet<>();
         boolean found2 = false;
 
-        input2[0][6] = true; //SG //we make the same table as before
+        input2[0][6] = true; //SG
         input2[0][7] = true; //SC
         input2[0][2] = true; //PG
         input2[0][3] = true; //PC
@@ -507,18 +486,16 @@ class AoC2016_11rewrite2 {
         visited2.add(root2.getSignature());
 
         while (!found2) {
-            //System.out.println(visited.size());
 
-            ArrayList<ArrayList<Node>> moves = makeMoves(queue2.remove()); //we make all possible moves
-            //<<up1>, <up2>, <down1>, <down2>>
+            ArrayList<ArrayList<Node>> moves = makeMoves(queue2.remove());
 
-            Node[] pruned = pruneMoves(visited2, moves); //we remove the illegal and repeating moves
+            Node[] pruned = pruneMoves(visited2, moves);
 
-            for (int i=0; i<pruned.length; i++) { //we add them to queue and to visited locations
+            for (int i=0; i<pruned.length; i++) {
                 queue2.add(pruned[i]);
                 visited2.add(pruned[i].getSignature());
 
-                if (pruned[i].checkGoal()) { //if we got to the end, we output and end
+                if (pruned[i].checkGoal()) {
                     System.out.println("2. number of steps to solve with extra objects: " + pruned[i].pathLen);
                     found2 = true;
                 }
@@ -527,7 +504,7 @@ class AoC2016_11rewrite2 {
         
 
         //TO-DO
-        //try to make pruneMoves_new work (one one for-while nest)
+        //try to make pruneMoves_new work (only one for-while nest)
 
 
         long endTime = System.nanoTime();
