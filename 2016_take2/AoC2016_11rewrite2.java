@@ -503,7 +503,7 @@ class AoC2016_11rewrite2 {
         
 
         //TO-DO
-        //try to make pruneMoves_new work (only one for-while nest)
+        //pruneMoves could be optimized, but aint nobody got time for that
 
 
         long endTime = System.nanoTime();
