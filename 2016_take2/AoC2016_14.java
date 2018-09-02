@@ -27,8 +27,8 @@ class AoC2016_14 {
         int counter = 0;
         boolean done = false;
 
-        while (!done) { //while(!done)
-            String both = input + counter++;
+        while (!done) {
+            String both = input + counter; //we create a string to hash (salt + counter)
 
             MessageDigest md = MessageDigest.getInstance("MD5");
             md.update(both.getBytes()); //creates byte array (bytes[]) (array of bytes of each char)
@@ -36,25 +36,23 @@ class AoC2016_14 {
 
             String hexString = "";
 
-            for (int i=0; i<digest.length; i++) {
+            for (int i=0; i<digest.length; i++) { //for every byte we format it into a hex string "%1$02x"
                 hexString += String.format("%1$02x", digest[i]);
-                // System.out.println(digest[i] +" "+ String.format("%1$02x", digest[i]));
             }
 
             int i = 0;
             while (i<matches.size()) { //checking for match5
-                matches.get(i).searched++;
+                matches.get(i).searched++; //we increase searched counter no mather what
 
                 if (matches.get(i).searched > 1000) { //if the match is too old, we remove it
                     matches.remove(i);
                 } else {
 
-                    String pat5 = "("+matches.get(i).match+")\\1\\1\\1\\1";
+                    String pat5 = "("+matches.get(i).match+")\\1\\1\\1\\1"; //"(mathcOfObject)\\1\\1\\1\\1"
                     Pattern pattern5 = Pattern.compile(pat5);
                     Matcher match5 = pattern5.matcher(hexString);
                     
                     if (match5.find()) { //if the hexString contains 5 match of any previously found 3 matches
-                        //System.out.println("match5 " + j);
                         found++; //we increase the found counter
                         if (found == 64) { //and if that counter is 64, we end
                             System.out.println("1. index that produces the 64th key: " + matches.get(i).index);
@@ -67,38 +65,31 @@ class AoC2016_14 {
                 }
             }
 
-            //check if any previous mathces have their 5 match in this
-
             Pattern pattern3 = Pattern.compile("(.)\\1\\1");
             Matcher match3 = pattern3.matcher(hexString);
 
-            if (match3.find()) {
-                //System.out.println(i);
-                matches.add(new Match(hexString.charAt(match3.start()), counter-1));
+            if (match3.find()) { //if we find a match, we add a new object to matches
+                matches.add(new Match(hexString.charAt(match3.start()), counter));
             }
 
-            //and than we save this into linked list (with some parameter to know wich char was repeating) (maybe arraylist)
-            //for next 1000 repetitioin we check if occurence of 5 repeatin of the same char (so we need to note the number of repetitions for that)
-            //if te repetition is found, the counter is increased (when it reaches 64 we output the counter (salt+counter))
-            //if within 1000 repetitions we dont get an occurence, we throw it out of the linked list
-            //we can create new class
+            counter++;
         }
 
         //part two
         //we do the same, we just hash 2017 times instead of once (takes like half a minute)
         LinkedList<Match> matches2 = new LinkedList<>();
-        int found2 = 0; //number of true matches (3 and 5)
+        int found2 = 0;
         int counter2 = 0;
         boolean done2 = false;
 
         while (!done2) {
-            String both = input + counter2++;
+            String both = input + counter2;
 
             String hexString = "";
 
             MessageDigest md = MessageDigest.getInstance("MD5");
             byte[] digest;
-            for (int i=0; i<2017; i++) { //the difference, instead of doing it once, we do it 2017 times
+            for (int i=0; i<2017; i++) { //the difference, instead of hashing it once, we do it 2017 times
                 md.update(both.getBytes());
                 digest = md.digest();
                 
@@ -149,8 +140,10 @@ class AoC2016_14 {
             Matcher match3 = pattern3.matcher(hexString);
 
             if (match3.find()) {
-                matches2.add(new Match(hexString.charAt(match3.start()), counter2-1));
+                matches2.add(new Match(hexString.charAt(match3.start()), counter2));
             }
+
+            counter2++;
         }
 
 
