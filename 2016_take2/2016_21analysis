@@ -1,0 +1,20 @@
+swap position X with position Y (swapPos(str, 2, 5))
+swap letter X with letter Y (swapLet(str, 2, 5))
+rotate left X step (rotateL(str, 2))
+rotate right X steps (rotateR(str, 2))
+rotate based on positiion of letter X (rotateN(str, 6))
+reverse positions X through Y (reverse(str, 2, 4))
+move position X to position Y (move(str, 2, 5))
+
+char    starting:shift(end position)
+a       0:1(1)      habcdefg    abcdefgh
+b       1:2(3)      ghabcdef    habcdefg
+c       2:3(5)      fghabcde    ghabcdef
+d       3:4(7)      efghabcd    fghabcde
+e       4:6(2)      cdefghab    defghabc
+f       5:7(4)      bcdefgha    cdefghab
+g       6:8(6)      abcdefgh    bcdefgha
+h       7:9(0)      habcdefg    abcdefgh
+       =7:1(0)
+
+rot = x / 2 + (x % 2 == 1 || x == 0 ? 1 : 5)

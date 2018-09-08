@@ -161,6 +161,7 @@ class AoC2016_19 {
         int current = 1; //not actually needed here much
 
         int numSteps = (list.size / 2) - ((list.size / 2) % 1); //the element opposite the current (similar like Math.floor() but without functions (result minus result mod 1 (= decimal part)))
+        //WAIT, IS THIS NEEDED. (5/2=2; 5/2.0=2.5) i think java has whole division (floor based) when using 2 ints
 
         int toRemove = current;
 
