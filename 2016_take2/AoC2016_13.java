@@ -130,9 +130,9 @@ class AoC2016_13 {
 
             queue.sort( new Comparator<Location>(){ // we create a custom comparator, that compares the total cost of node / Location (pathLen + heuristic)
                 @Override
-                    public int compare(Location o1,Location o2){ //comparator must return 0 if equal, negative if first smaller and pozitive if second smaller
-                        return o1.cost - o2.cost;
-                    }
+                public int compare(Location o1,Location o2){ //comparator must return 0 if equal, negative if first smaller and pozitive if second smaller
+                    return o1.cost - o2.cost;
+                }
                 });
         }
 
