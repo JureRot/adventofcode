@@ -72,7 +72,7 @@ while (smaller) {
 
 dist <- abs(x) + abs(y) #manhattan distance
 
-#part two
+#part two (look analysis2017_03.txt for more info)
 funcs <- list(NULL) #list of node:adjacent_nodes
 values <- c(1) #calculated values of nodes
 
