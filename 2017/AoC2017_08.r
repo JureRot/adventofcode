@@ -17,6 +17,10 @@ close(input_file)
 
 reg <- list()
 
+#part two
+largest_ever_value <- 0
+largest_ever_name <- ""
+
 for (line in input) {
   line <- gsub(" if ", " ", line) #remove the if
   line <- unlist(strsplit(line, " "))
@@ -38,29 +42,61 @@ for (line in input) {
   
   condition <- FALSE
   
-  if (line[5] == "<") {
-    if (reg[[line[4]]] < as.integer(reg[[line[6]]])) {
+  if (line[5] == "<") { #pseudo switch statement for each condition
+    if (reg[[line[4]]] < as.integer(line[6])) {
       condition <- TRUE
     }
   } else if (line[5] == ">") {
-    if (reg[[line[4]]] > as.integer(reg[[line[6]]])) {
+    if (reg[[line[4]]] > as.integer(line[6])) {
       condition <- TRUE
     }
   } else if (line[5] == "<=") {
-    if (reg[[line[4]]] <= as.integer(reg[[line[6]]])) {
+    if (reg[[line[4]]] <= as.integer(line[6])) {
       condition <- TRUE
     }
   } else if (line[5] == ">=") {
-    if (reg[[line[4]]] >= as.integer(reg[[line[6]]])) {
+    if (reg[[line[4]]] >= as.integer(line[6])) {
       condition <- TRUE
     }
   } else if (line[5] == "==") {
-    if (reg[[line[4]]] == as.integer(reg[[line[6]]])) {
+    if (reg[[line[4]]] == as.integer(line[6])) {
       condition <- TRUE
     }
   } else if (line[5] == "!=") {
-    if (reg[[line[4]]] != as.integer(reg[[line[6]]])) {
+    if (reg[[line[4]]] != as.integer(line[6])) {
       condition <- TRUE
     }
   }
+  
+  
+  if (condition) { #if condition is true
+    value <- as.integer(line[3])
+    
+    if (line[2] == "dec") { #if dec, we just reverse it (multiply by -1)
+      value <- value * -1
+      
+    }
+    
+    reg[[line[1]]] <- reg[[line[1]]] + value #change the value
+    
+    #part two
+    if (reg[[line[1]]] > largest_ever_value) {
+      largest_ever_value <- reg[[line[1]]]
+      largest_ever_name <- line[1]
+    }
+  }
 }
+
+largest_value <- 0
+largest_name <- ""
+
+for (r in names(reg)) { #at the end, we find the largest value (names are irrelevant)
+  if (reg[[r]] > largest_value) {
+    largest_value <- reg[[r]]
+    largest_name <- r
+  }
+}
+
+largest_value
+
+largest_ever_value
