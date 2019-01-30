@@ -93,10 +93,10 @@ while (TRUE) {
   if (length(unique(child_weight)) > 1) { #if all weights not the same (more than one unique)
     big <- which.max(child_weight) #we get the position of the big one
     unbalanced <- child_names[big] #change the name of unballanced (step deeper)
-    correct_value <- tree[[child_names[big]]]$weight - (max(child_weight) - min(child_weight)) #correct the value it should be
+    correct_value <- tree[[child_names[big]]]$weight - (max(child_weight) - min(child_weight)) #correct the value it should be (its weight minus the diff between other noded (how much it should have been))
     
     #WE ASSUME THE UNBALANCED NODE WILL BE BIGGER THAN THE REST ON THE DISC (else more ifs)
-  } else {
+  } else { #if the child is balanced, we break, because we found the last (deepest) unbalanced node
     break
   }
   
