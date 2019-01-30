@@ -57,7 +57,7 @@ for (i in as.character(0:max_depth)) { #walk over layers
 
 
 #part two
-delay <- 0
+delay <- 1500
 
 while (TRUE) {
   collision <- FALSE
@@ -107,6 +107,7 @@ while (TRUE) {
   if (!collision) { #after the increment because we start with 0
     break
   }
+  #THIS SHOULD WORK, BUT IT WOULD TAKE LIKE YEARS
 }
 
 severity
