@@ -38,8 +38,9 @@ for (i in 1:40000000) {
     match <- match + 1
   }
   
+  #DONT STRESS, TAKE A BREATH, TAKES A WHILE (hmmmm, a little too long)
   
-  #DONT STRESS, TAKE A BREATH, TAKES A WHILE
+  #instead of comparing actual bin strings, compare %% 65536 of the numbers (this is the lowest 16 bits (0Xffff))
 }
 
 match
