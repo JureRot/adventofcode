@@ -20,7 +20,7 @@ close(input_file)
 input <- unlist(strsplit(input, ","))
 
 
-spin <- function(programs, n) { #spin the programs for n
+spin <- function(programs, n) { #spin the programs for n (c([-(n-1):end], [0:n]))
   temp <- c(programs[(length(programs)-(n-1)):length(programs)], programs[1:(length(programs)-n)])
   
   return(temp)
@@ -48,7 +48,7 @@ partner <- function(programs, a, b) { #change programs a and b
     }
   }
   
-  return(exchange(programs, x, y))
+  return(exchange(programs, x, y)) #when we have location we use exchange function
 }
 
 
@@ -60,9 +60,9 @@ for (i in unlist(strsplit(intToUtf8(97:112), ""))) { #create and fill programs (
 }
 
 
-for (i in input) {
+for (i in input) { #for every command
   func<- substr(i, 1, 1) #first letter in string
-  values <- unlist(strsplit(substr(i, 2, nchar(i)), "/"))
+  values <- unlist(strsplit(substr(i, 2, nchar(i)), "/")) #remainder of string split by /
   
   if (func == "s") {
     programs <- spin(programs, as.integer(values[1]))
@@ -73,29 +73,72 @@ for (i in input) {
   }
 }
 
-order <- paste(programs, collapse = "")
+order <- paste(programs, collapse = "") #order after the dance
+
+#take two
+
+# for (bla in 2:1000000000) {
+#   for (i in input) {
+#     func<- substr(i, 1, 1) #first letter in string
+#     values <- unlist(strsplit(substr(i, 2, nchar(i)), "/"))
+# 
+#     if (func == "s") {
+#       programs <- spin(programs, as.integer(values[1]))
+#     } else if (func == "x") {
+#       programs <- exchange(programs, as.integer(values[1]), as.integer(values[2]))
+#     } else if (func == "p") {
+#       programs <- partner(programs, values[1], values[2])
+#     }
+#   }
+# 
+#   #TAKES A WHILE, MAYBE A LITTLE TOO MUCH
+#   
+#   #idea, find the cycles (when it comes back to "abcdefghijlkmnop") than go just throug %% cycle lenght
+#   
+# }
 
 
-#part two
+#part two (take two)
 
-for (bla in 2:1000000000) {
-  # for (i in input) {
-  #   func<- substr(i, 1, 1) #first letter in string
-  #   values <- unlist(strsplit(substr(i, 2, nchar(i)), "/"))
-  #   
-  #   if (func == "s") {
-  #     programs <- spin(programs, as.integer(values[1]))
-  #   } else if (func == "x") {
-  #     programs <- exchange(programs, as.integer(values[1]), as.integer(values[2]))
-  #   } else if (func == "p") {
-  #     programs <- partner(programs, values[1], values[2])
-  #   }
-  # }
-  # 
-  # #TAKES A WHILE, MAYBE A LITTLE TOO MUCH
+cycles <- 1 #1 instead of 0 (we already did one dance for part one)
+cycle_start <- intToUtf8(97:112) #[a-p]
+
+while (paste(programs, collapse = "") != cycle_start) { #while not yet repeated (finding cycle len)
+  for (i in input) {
+    func<- substr(i, 1, 1)
+    values <- unlist(strsplit(substr(i, 2, nchar(i)), "/"))
+    
+    if (func == "s") {
+      programs <- spin(programs, as.integer(values[1]))
+    } else if (func == "x") {
+      programs <- exchange(programs, as.integer(values[1]), as.integer(values[2]))
+    } else if (func == "p") {
+      programs <- partner(programs, values[1], values[2])
+    }
+  }
   
-  #idea, find the cycles (when it comes back to "abcdefghijlkmnop") than go just throug %% cycle lenght
+  cycles <- cycles + 1
   
+  #TAKES A WHILE (like half a minute)
+}
+
+#at this point, programs are back as they started, so no need to reset
+
+for (c in 1:(1000000000 %% cycles)) { #we dance just remainder times (remainder of when it autoresets)
+  for (i in input) {
+    func<- substr(i, 1, 1)
+    values <- unlist(strsplit(substr(i, 2, nchar(i)), "/"))
+    
+    if (func == "s") {
+      programs <- spin(programs, as.integer(values[1]))
+    } else if (func == "x") {
+      programs <- exchange(programs, as.integer(values[1]), as.integer(values[2]))
+    } else if (func == "p") {
+      programs <- partner(programs, values[1], values[2])
+    }
+  }
+  
+  #TAKES A WHILE (like half a minute)
 }
 
 order2 <- paste(programs, collapse = "")
