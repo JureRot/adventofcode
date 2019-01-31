@@ -93,7 +93,9 @@ for (bla in 2:1000000000) {
   # }
   # 
   # #TAKES A WHILE, MAYBE A LITTLE TOO MUCH
-  print(bla)
+  
+  #idea, find the cycles (when it comes back to "abcdefghijlkmnop") than go just throug %% cycle lenght
+  
 }
 
 order2 <- paste(programs, collapse = "")
