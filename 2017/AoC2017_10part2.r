@@ -55,7 +55,6 @@ skip <- 0
 numbers <- 0:255 #list of numbers (change to 0:255)
 num_len <- length(numbers)
 
-
 for (bla in 1:64) { #for 64 cycles
   for (i in input) { #for every lenght (includin suffix) we do the same as in part 1
     numbers <- reverse(numbers, indices(position, i, num_len))
