@@ -278,11 +278,12 @@ rcv2 <- function(state, other, x) { #stores sent value of other in reg x
   return(list(state, other))
 }
 
-registers <- list()
-registers[["p"]] <- 0
-state0 <- list(registers=registers, i=1, sent=c(), num_sent=0, terminated=FALSE)
-registers[["p"]] <- 1
-state1 <- list(registers=registers, i=1, sent=c(), num_sent=0, terminated=FALSE)
+registers0 <- list()
+registers0[["p"]] <- 0
+state0 <- list(registers=registers0, i=1, sent=c(), num_sent=0, terminated=FALSE)
+registers1 <- list()
+registers1[["p"]] <- 1
+state1 <- list(registers=registers1, i=1, sent=c(), num_sent=0, terminated=FALSE)
 
 # input <- c("snd 1", "snd 2", "snd p", "rcv a", "rcv b", "rcv c", "rcv d") #test input
 # input <- strsplit(input, " ")
@@ -358,3 +359,18 @@ received_sound
 state1$num_sent
 
 #doesnt work correctly. try to go just stepping from one program to another, not running both of them unil they cant run any more
+
+# list of states of programs (both in same var)
+# change index (1, 2) using 3-i function
+
+# idea:
+#   run first program until receive
+#   if other program has sent, get data
+#   else if other terminated, terminate both (will never receive)
+#   else if this hasnt sent anything and other is receiving, terminate both (deathlock)
+#   else, put this into receiving, swap programs
+# 
+# checking terminated:
+#   if outside 1:len(input)
+#     if other terminated, terminate both
+#     else, terminate this and switch to other
