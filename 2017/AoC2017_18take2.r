@@ -356,3 +356,5 @@ while((!state0$terminated) | (!state1$terminated)) {
 received_sound
 
 state1$num_sent
+
+#doesnt work correctly. try to go just stepping from one program to another, not running both of them unil they cant run any more
