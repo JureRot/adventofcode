@@ -42,4 +42,6 @@ for (part in 1:length(particles)) {
 # 119: p=<-3329,585,1447>, v=<98,-17,-8>, a=<0,0,-2>
 # 170: p=<430,891,209>, v=<3,-10,-8>, a=<-1,-1,0>
 
+#NVM, SECOND PART NEEDS ACTUAL SIMULATION
+
 closest_name
