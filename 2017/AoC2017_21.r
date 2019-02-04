@@ -15,7 +15,7 @@ while ( TRUE ) {
 }
 close(input_file)
 
-input <- c("../.# => ##./#../...", ".#./..#/### => #..#/..../..../#..#") #test input
+#input <- c("../.# => ##./#../...", ".#./..#/### => #..#/..../..../#..#") #test input
 
 input <- gsub("/", "", input)
 input <- strsplit(input, " => ")
@@ -46,7 +46,9 @@ for (line in input) { #write all rules
 
 grid <- matrix(unlist(strsplit(".#...####", "")), nrow=3, ncol=3, byrow=TRUE) #starting grid
 
-for (iter in 1:2) { #for 5 iterations (change to 5)
+print(grid)
+
+for (iter in 1:5) { #for 18 iterations (part two) (should be 18 for part 2)
   new_grid <- NULL
   if (ncol(grid) %% 2 == 0) { #if size divisible by 2 (ncol or nrow is the same because square matrices)
     for (i in 0:((ncol(grid)/2)-1)) {
@@ -146,11 +148,19 @@ for (iter in 1:2) { #for 5 iterations (change to 5)
   }
   
   grid <- new_grid
-  print(grid)
+
+  if (iter == 5) { #if fifth iteration
+    num_lit <- length(grid[grid == "#"]) #number of cels lit (where gird is #)
+  }
   
-  #this seems to work for example, but not for acctual input
+  
+  #THIS WORK BUT ITS SLOW (like a minute)
+  #could rewrite this (after 3 iterations a 3x3 becomes 9 independent 3x3 blocks) (but maybe some other time)
 }
 
-num_lit <- length(grid[grid == "#"]) #number of cels lit (where gird is #)
+num_lit2 <- length(grid[grid == "#"]) #number of cels lit for part two
+
 
 num_lit
+
+num_lit2
