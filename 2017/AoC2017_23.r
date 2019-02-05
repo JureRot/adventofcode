@@ -36,7 +36,7 @@ set <- function(registers, x, y) { #sets reg x with value y
 }
 
 sub <- function(registers, x, y) { #decrease the value of reg x by value of y
-  registers[[x]] <- registers[[x]] + get_value(registers, y)
+  registers[[x]] <- registers[[x]] - get_value(registers, y)
   return(registers)
 }
 
@@ -65,6 +65,7 @@ num_mul <- 0
 i <- 1
 
 while((i >= 1) & (i <= length(input))) {
+#for (bla in 1:1000) {
   if (input[[i]][1] == "set") {
     registers <- set(registers, input[[i]][2], input[[i]][3])
     i <- i + 1
@@ -79,9 +80,42 @@ while((i >= 1) & (i <= length(input))) {
     i <- i + jnz(registers, input[[i]][2], input[[i]][3])
   }
   
-  #print(c(registers$a, registers$b, registers$c, registers$d, registers$e, registers$f, registers$g, registers$h))
+  #takes a few seconds
   
-  #seems too take a while, manually chekc what is supposed to be doing (could be 100000! or something)
+  if (registers$h == 1) {
+    print(c(registers$a, registers$b, registers$c, registers$d, registers$e, registers$f, registers$g, registers$h))
+  }
+}
+
+
+#part two
+
+registers2 <- new.env()
+
+for (r in c("a", "b", "c", "d", "e", "f", "g", "h")) { #we init all registers with zeros
+  registers2[[r]] <- 0
+}
+registers2[["a"]] <- 1
+
+i <- 1
+
+while((i >= 1) & (i <= length(input))) {
+#for (bla in 1:100) {
+  if (input[[i]][1] == "set") {
+    registers2 <- set(registers2, input[[i]][2], input[[i]][3])
+    i <- i + 1
+  } else if (input[[i]][1] == "sub") {
+    registers2 <- sub(registers2, input[[i]][2], input[[i]][3])
+    i <- i + 1
+  } else if (input[[i]][1] == "mul") {
+    registers2 <- mul(registers2, input[[i]][2], input[[i]][3])
+    i <- i + 1
+  } else if (input[[i]][1] == "jnz") {
+    i <- i + jnz(registers2, input[[i]][2], input[[i]][3])
+  }
+  
+  
+  #TAKES WAY TOO LONG (try to figure out what is it doing)
 }
 
 num_mul
