@@ -131,7 +131,7 @@ for (burst2 in 1:10000000) {
   }
   
   #THIS TAKES A WHILE (like a too much)
-  #try to actually use grid (list) and if clean is.null, else has value, delete with <- NULL
+  #try to actually use grid (environment (hashable, unlike list)) and if clean is.null, else has value, delete with <- NULL
 }
 
 infestations

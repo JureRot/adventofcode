@@ -15,7 +15,7 @@ while ( TRUE ) {
 }
 close(input_file)
 
-input <- c("..#", "#..", "...") #test input
+#input <- c("..#", "#..", "...") #test input
 
 
 grid <- new.env() #string(x),string(y) (comma separator) names
@@ -128,8 +128,7 @@ for (burst2 in 1:10000000) {
     y <- y + 1
   }
   
-  #STILL WAY TOO SLOW
-  #no idea what to do (try to use env (new.env()) instead of lists (they are hashed (O(1) instead O(n) lookup)))
+  #STILL SLOW BUT BEARALBE (about 90 sec)
 }
 
 infestations
