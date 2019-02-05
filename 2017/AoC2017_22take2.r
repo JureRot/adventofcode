@@ -18,7 +18,7 @@ close(input_file)
 input <- c("..#", "#..", "...") #test input
 
 
-grid <- list() #string(x),string(y) (comma separator) names
+grid <- new.env() #string(x),string(y) (comma separator) names
 
 for (l in 1:length(input)) { #mark all infected in input
   line <- unlist(strsplit(input[l], ""))
@@ -33,20 +33,21 @@ x <- ceiling(length(input)/2) #middle of columns (half of num rows)
 y <- ceiling(nchar(input[1])/2) #middle of rows (half of num columns)
 dir <- 1 #0:right(+x), 1:up(-y), 2:left(-x), 3:down(-y) (default poiting up)
 
-infestations <- 0
+infestations <- as.numeric(0)
 
 for (burst in 1:10000) {
-  current <- grid[[paste(c(x,y), collapse=",")]]
+  name <- paste(c(x,y), collapse=",")
+  current <- grid[[name]]
   
   if (!is.null(current)) { #if current is infected
     dir <- (dir - 1) %% 4 #turn right
     
-    grid[[paste(c(x,y), collapse=",")]] <- NULL #remove it (thus make it clean)
+    grid[[name]] <- NULL #remove it (thus make it clean)
     
   } else { #if clean
     dir <- (dir + 1) %% 4 #turn left
     
-    grid[[paste(c(x,y), collapse=",")]] <- "i" #add it as infected
+    grid[[name]] <- "i" #add it as infected
     infestations <- infestations + 1 #keep track of number of infestations
   }
   
@@ -64,7 +65,7 @@ for (burst in 1:10000) {
 
 
 #take two
-grid <- list() #string(x),string(y) (comma separator) names
+grid <- new.env() #string(x),string(y) (comma separator) names
 
 for (l in 1:length(input)) { #mark all infected in input
   line <- unlist(strsplit(input[l], ""))
@@ -79,23 +80,24 @@ x <- ceiling(length(input)/2) #middle of columns (half of num rows)
 y <- ceiling(nchar(input[1])/2) #middle of rows (half of num columns)
 dir <- 1 #0:right(+x), 1:up(-y), 2:left(-x), 3:down(-y) (default poiting up)
 
-infestations2 <- 0
+infestations2 <- as.numeric(0)
 
 for (burst2 in 1:10000000) {
-  current <- grid[[paste(c(x,y), collapse=",")]]
+  name <- paste(c(x,y), collapse=",")
+  current <- grid[[name]]
   
   if (is.null(current)) { #current clear
     #turn left
     dir <- (dir + 1) %% 4
     
     #becomes weakened
-    grid[[paste(c(x,y), collapse=",")]] <- "w"
+    grid[[name]] <- "w"
     
   } else if (current == "w") { #current weakened
     #doesnt turn
     
     #weakened becomes infected
-    grid[[paste(c(x,y), collapse=",")]] <- "i"
+    grid[[name]] <- "i"
     
     #note number of infestations
     infestations2 <- infestations2 + 1
@@ -105,14 +107,14 @@ for (burst2 in 1:10000000) {
     dir <- (dir - 1) %% 4
     
     #infected becomes flagged
-    grid[[paste(c(x,y), collapse=",")]] <- "f"
+    grid[[name]] <- "f"
     
   } else if (current == "f") { #current flagged
     #reverse dir
     dir <- (dir + 2) %% 4
     
     #flagged becomes clean
-    grid[[paste(c(x,y), collapse=",")]] <- NULL
+    grid[[name]] <- NULL
   }
   
   #change position
@@ -127,7 +129,7 @@ for (burst2 in 1:10000000) {
   }
   
   #STILL WAY TOO SLOW
-  #no idea what to do
+  #no idea what to do (try to use env (new.env()) instead of lists (they are hashed (O(1) instead O(n) lookup)))
 }
 
 infestations
