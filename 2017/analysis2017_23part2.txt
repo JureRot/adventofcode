@@ -1,0 +1,65 @@
+set b 93
+set c b
+jnz a 2
+jnz 1 5
+mul b 100
+sub b -100000
+set c b
+sub c -17000
+set f 1
+set d 2
+set e 2
+set g d
+mul g e
+sub g b
+jnz g 2
+set f 0
+sub e -1
+set g e
+sub g b
+jnz g -8
+sub d -1
+set g d
+sub g b
+jnz g -13
+jnz f 2
+sub h -1
+set g b
+sub g c
+jnz g 2
+jnz 1 3
+sub b -17
+jnz 1 -23
+
+this is our input (represents a program run with assembly commands)
+first we will translate it into something more "code like language" (here we use javascript)
+thus we will be able to see the loops more easily and optimise it
+set, sub and mul commands are pretty straight forward
+but jnz commands can become one of two things
+if statement (jnz x 2) (jumps over next command if x not zero)
+do while loop (jnz x -8) (goes back to the beginning of the loop if x not zero)
+
+
+var a=1, b, c, d, e, f, g, h=0;
+
+
+#set b 93				--
+b = 93;					  \
+#set c b				   |
+c = b;					   |
+#jnz a 2 				   |
+#jnz 1 5 #skiped, a is set to 1		    \
+#mul b 100				     --	this is all initiation (will be exectude just once)
+b = b*100				    /
+#sub b -100000				   |
+b = b+100000				   |
+#set c b				   |
+c = b					   |
+#sub c -17000				  /
+c = c+17000				--
+
+#same as saying
+b = 109300
+c = 126300
+
+inspiration and help [https://youtube.com/watch?v=AqXTZo6o34s]
