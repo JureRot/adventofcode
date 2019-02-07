@@ -82,15 +82,41 @@ while((i >= 1) & (i <= length(input))) {
   
   #takes a few seconds
   
-  if (registers$h == 1) {
-    print(c(registers$a, registers$b, registers$c, registers$d, registers$e, registers$f, registers$g, registers$h))
-  }
 }
 
 
 #part two
 
 # would take way to long to actually run, so we need to understand what the program is actually doing and optimise
-# this is done in analysis2017_23part2.txt
+# this is explaned in analysis2017_23part2.txt
+
+b <- 109300
+c <- 126300
+d <- 0
+h <- 0
+
+while (TRUE) {
+  f <- TRUE
+  
+  for (d in 2:(b-1)) {
+    if ((b%%d) == 0) {
+      f <- FALSE
+      break
+    }
+  }
+  
+  if (!f) {
+    h <- h + 1
+  }
+  
+  if (b == c) {
+    break
+  }
+  
+  b <- b + 17
+}
+
 
 num_mul
+
+h
