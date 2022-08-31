@@ -98,7 +98,28 @@ function part_2 () {
 	done
 }
 
+function part_2_take2 () {
+	IFS=$'\n' read -d '' -a ids <<< "$input"
+
+	for i in $(seq 0 $((${#ids[@]}-1))); do
+		for j in $(seq $((i+1)) $((${#ids[@]}-1))); do #dont need to repeat reverse checks
+			curr_i=${ids[i]}
+			curr_j=${ids[j]}
+
+			compare=$(cmp -bl <(echo "$curr_i") <(echo "$curr_j"))
+			num_lines=$(echo "$compare" | wc -l)
+
+			if [[ "$num_lines" -eq 1 ]]; then
+				differ=$(($(echo "$compare" | xargs | cut -d" " -f1)-1))
+				printf "solution 2 (take2): %s%s\n" ${curr_i:0:$differ} ${curr_i:$((differ+1))}
+				return
+			fi
+		done
+	done
+}
+
 part_1
 # (bash?)
 part_2
+# part_2_take2 #simpler but way slower
 # (bash2?)
