@@ -1,0 +1,14 @@
+/home/nt/documents/aoc/aoc_2018_take3/bin/Debug/net8.0/aoc_2018_take3
+/home/nt/documents/aoc/aoc_2018_take3/bin/Debug/net8.0/aoc_2018_take3.deps.json
+/home/nt/documents/aoc/aoc_2018_take3/bin/Debug/net8.0/aoc_2018_take3.runtimeconfig.json
+/home/nt/documents/aoc/aoc_2018_take3/bin/Debug/net8.0/aoc_2018_take3.dll
+/home/nt/documents/aoc/aoc_2018_take3/bin/Debug/net8.0/aoc_2018_take3.pdb
+/home/nt/documents/aoc/aoc_2018_take3/obj/Debug/net8.0/aoc_2018_take3.GeneratedMSBuildEditorConfig.editorconfig
+/home/nt/documents/aoc/aoc_2018_take3/obj/Debug/net8.0/aoc_2018_take3.AssemblyInfoInputs.cache
+/home/nt/documents/aoc/aoc_2018_take3/obj/Debug/net8.0/aoc_2018_take3.AssemblyInfo.cs
+/home/nt/documents/aoc/aoc_2018_take3/obj/Debug/net8.0/aoc_2018_take3.csproj.CoreCompileInputs.cache
+/home/nt/documents/aoc/aoc_2018_take3/obj/Debug/net8.0/aoc_2018_take3.dll
+/home/nt/documents/aoc/aoc_2018_take3/obj/Debug/net8.0/refint/aoc_2018_take3.dll
+/home/nt/documents/aoc/aoc_2018_take3/obj/Debug/net8.0/aoc_2018_take3.pdb
+/home/nt/documents/aoc/aoc_2018_take3/obj/Debug/net8.0/aoc_2018_take3.genruntimeconfig.cache
+/home/nt/documents/aoc/aoc_2018_take3/obj/Debug/net8.0/ref/aoc_2018_take3.dll

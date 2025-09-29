@@ -1,0 +1,167 @@
+namespace aoc_2018_take2;
+
+class aoc_2018_11
+{
+    static string filename = "aoc_2018_11.txt";
+
+	private static int powerLevel (int x, int y, int rank) {
+		var res = 0;
+		var rackId = x + 10;
+		res += rackId * y;
+		res = res + rank;
+		res *= rackId;
+		res = (res / 100) % 10;
+		res -= 5;
+
+		return res;
+	}
+
+	private static int[] findMax(int[,] grid) {
+		var max = 0;
+		var yMax = 0;
+		var xMax = 0;
+
+		for (var j=1; j<grid.GetLength(0)-1; j++) {
+			for (var i=1; i<grid.GetLength(1)-1; i++) {
+				var sum = grid[j-1,i-1]
+					+ grid[j-1,i]
+					+ grid[j-1,i+1]
+					+ grid[j,i-1]
+					+ grid[j,i]
+					+ grid[j,i+1]
+					+ grid[j+1,i-1]
+					+ grid[j+1,i]
+					+ grid[j+1,i+1];
+				if (sum > max) {
+					max = sum;
+					yMax = j;
+					xMax = i;
+				}
+			}
+		}
+
+		return new int[]{xMax, yMax};
+		// this is not really correct
+		// it worked because indexing is off by 1 and the windows is always 3
+	}
+
+	private static int[] findMax2(int[,] grid, int window = 3) {
+		// make it variable for window size
+		// method: sub the trailing edge, add the leading edge
+
+		var max = 0;
+		var yMax = 0;
+		var xMax = 0;
+
+		var prevSum = 0;
+
+		for (var j=0; j<grid.GetLength(0)-window; j++) {
+			for (var i=0; i<grid.GetLength(1)-window; i++) {
+				var sum = prevSum;
+				if (sum == 0) {
+					// create sum
+					for (var l=0; l<window; l++) {
+						for (var k=0; k<window; k++) {
+							sum += grid[j+l,i+k];
+						}
+					}
+					//Console.WriteLine("create sum: {0}", sum);
+				} else if (i>0){
+					// get trailing and leading edge variable y/j
+					var trailing = 0;
+					var leading = 0;
+					for (var e=0; e<window; e++) {
+						trailing += grid[j+e,i-1];
+						leading += grid[j+e,i+window];
+					}
+					// sub trailing edge
+					sum -= trailing;
+					// add leading edge
+					sum += leading;
+					//Console.WriteLine("change sum: {0}", sum);
+				}
+
+				if (sum > max) {
+					max = sum;
+					yMax = j;
+					xMax = i;
+				}
+				//set prevSum
+				prevSum = sum;
+			}
+			// get trailing and leading edge variable x/i
+			// sub trailing edge
+			// add leading edge
+
+			// (for testing -> just set prevSum to 0)
+			prevSum = 0;
+		}
+
+		return new int[]{xMax, yMax};
+	}
+
+
+    public static void part1()
+    {
+        var watch = System.Diagnostics.Stopwatch.StartNew();
+
+        var line = Convert.ToInt32(File.ReadAllLines(filename)[0]);
+
+		var grid = new int[300,300];
+		
+		for (var j=0; j<grid.GetLength(0); j++) {
+			for (var i=0; i<grid.GetLength(1); i++) {
+				grid[j,i] = powerLevel(i+1, j+1, line);
+			}
+		}
+
+		var biggest = findMax(grid);
+
+		Console.WriteLine("AoC 11 part1: {0},{1}", biggest[0], biggest[1]);
+
+        watch.Stop();
+        var elapsed = watch.ElapsedMilliseconds;
+        Console.WriteLine("Elapsed time: {0}ms", elapsed);
+    }
+
+    public static void part2()
+    {
+        var watch = System.Diagnostics.Stopwatch.StartNew();
+
+        var line = Convert.ToInt32(File.ReadAllLines(filename)[0]);
+		line = 18;
+
+		var grid = new int[300,300];
+		
+		for (var j=0; j<grid.GetLength(0); j++) {
+			for (var i=0; i<grid.GetLength(1); i++) {
+				grid[j,i] = powerLevel(i+1, j+1, line);
+			}
+		}
+
+        /*var f1 = System.Diagnostics.Stopwatch.StartNew();
+		for (var i=1; i<=300; i++) {
+			findMax(grid);
+		}
+        f1.Stop();
+        var elapsedF1 = f1.ElapsedMilliseconds;
+        Console.WriteLine("f1: {0}ms", elapsedF1);*/
+
+		var biggest = findMax(grid);
+        Console.WriteLine("1: {0},{1}", biggest[0], biggest[1]);
+		biggest = findMax2(grid);
+        Console.WriteLine("2: {0},{1}", biggest[0], biggest[1]);
+		// too slow for part 2
+		// 2 approaches
+		// a) dynamic programming check if i have half size and just count those
+		//	creates 300x300x300 array
+		// b) just change the edges (minus trailing edge, plus the leading edge)
+		//try both and compare
+
+		Console.WriteLine("AoC 11 part2: {0},{1}", biggest[0], biggest[1]);
+
+        watch.Stop();
+        var elapsed = watch.ElapsedMilliseconds;
+        Console.WriteLine("Elapsed time: {0}ms", elapsed);
+    }
+}

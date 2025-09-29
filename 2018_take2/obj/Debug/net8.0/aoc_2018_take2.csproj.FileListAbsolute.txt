@@ -1,0 +1,28 @@
+C:/Users/Jure Rot/Desktop/aoc_2018_take2/obj/Debug/net8.0/aoc_2018_take2.GeneratedMSBuildEditorConfig.editorconfig
+C:/Users/Jure Rot/Desktop/aoc_2018_take2/obj/Debug/net8.0/aoc_2018_take2.AssemblyInfoInputs.cache
+C:/Users/Jure Rot/Desktop/aoc_2018_take2/obj/Debug/net8.0/aoc_2018_take2.AssemblyInfo.cs
+C:/Users/Jure Rot/Desktop/aoc_2018_take2/obj/Debug/net8.0/aoc_2018_take2.csproj.CoreCompileInputs.cache
+C:/Users/Jure Rot/Desktop/aoc_2018_take2/bin/Debug/net8.0/aoc_2018_take2.exe
+C:/Users/Jure Rot/Desktop/aoc_2018_take2/bin/Debug/net8.0/aoc_2018_take2.deps.json
+C:/Users/Jure Rot/Desktop/aoc_2018_take2/bin/Debug/net8.0/aoc_2018_take2.runtimeconfig.json
+C:/Users/Jure Rot/Desktop/aoc_2018_take2/bin/Debug/net8.0/aoc_2018_take2.dll
+C:/Users/Jure Rot/Desktop/aoc_2018_take2/bin/Debug/net8.0/aoc_2018_take2.pdb
+C:/Users/Jure Rot/Desktop/aoc_2018_take2/obj/Debug/net8.0/aoc_2018_take2.dll
+C:/Users/Jure Rot/Desktop/aoc_2018_take2/obj/Debug/net8.0/refint/aoc_2018_take2.dll
+C:/Users/Jure Rot/Desktop/aoc_2018_take2/obj/Debug/net8.0/aoc_2018_take2.pdb
+C:/Users/Jure Rot/Desktop/aoc_2018_take2/obj/Debug/net8.0/aoc_2018_take2.genruntimeconfig.cache
+C:/Users/Jure Rot/Desktop/aoc_2018_take2/obj/Debug/net8.0/ref/aoc_2018_take2.dll
+/home/nt/documents/aoc/aoc_2018_take2/bin/Debug/net8.0/aoc_2018_take2
+/home/nt/documents/aoc/aoc_2018_take2/bin/Debug/net8.0/aoc_2018_take2.deps.json
+/home/nt/documents/aoc/aoc_2018_take2/bin/Debug/net8.0/aoc_2018_take2.runtimeconfig.json
+/home/nt/documents/aoc/aoc_2018_take2/bin/Debug/net8.0/aoc_2018_take2.dll
+/home/nt/documents/aoc/aoc_2018_take2/bin/Debug/net8.0/aoc_2018_take2.pdb
+/home/nt/documents/aoc/aoc_2018_take2/obj/Debug/net8.0/aoc_2018_take2.GeneratedMSBuildEditorConfig.editorconfig
+/home/nt/documents/aoc/aoc_2018_take2/obj/Debug/net8.0/aoc_2018_take2.AssemblyInfoInputs.cache
+/home/nt/documents/aoc/aoc_2018_take2/obj/Debug/net8.0/aoc_2018_take2.AssemblyInfo.cs
+/home/nt/documents/aoc/aoc_2018_take2/obj/Debug/net8.0/aoc_2018_take2.csproj.CoreCompileInputs.cache
+/home/nt/documents/aoc/aoc_2018_take2/obj/Debug/net8.0/aoc_2018_take2.dll
+/home/nt/documents/aoc/aoc_2018_take2/obj/Debug/net8.0/refint/aoc_2018_take2.dll
+/home/nt/documents/aoc/aoc_2018_take2/obj/Debug/net8.0/aoc_2018_take2.pdb
+/home/nt/documents/aoc/aoc_2018_take2/obj/Debug/net8.0/aoc_2018_take2.genruntimeconfig.cache
+/home/nt/documents/aoc/aoc_2018_take2/obj/Debug/net8.0/ref/aoc_2018_take2.dll
