@@ -5,6 +5,7 @@ for line in io.lines("01.txt") do
 	table.insert(lines, line)
 end
 
+
 local function parse_line(line)
 	local command = string.sub(line, 1, 1)
 	local count = string.sub(line, 2) -- to the end
@@ -77,6 +78,7 @@ for i = 1, #lines do
 end
 
 print("Part 2: " .. num_any_zeros)
+
 
 local end_time = os.clock()
 print("Elapsed time: " .. (end_time - start_time) ..  " seconds")
