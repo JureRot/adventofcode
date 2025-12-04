@@ -39,7 +39,7 @@ local function is_invalid_id2(n)
 
 			-- create string body
 			local body = ""
-			for j = 1, #id/i do
+			for _ = 1, #id/i do
 				body = body .. head
 			end
 
