@@ -29,10 +29,11 @@ local function insert_range(ranges, start, stop)
     
             -- look if current range is overlapping (in any way) with existing (non-deleted) range
             if (
-                (curr_s >= exist_s and curr_s <= exist_e) or
-                (curr_e >= exist_s and curr_e <= exist_e) or
-                (exist_s >= curr_s and exist_s <= curr_e) or
-                (exist_e >= curr_s and exist_e <= curr_e)
+                --(curr_s >= exist_s and curr_s <= exist_e) or
+                --(curr_e >= exist_s and curr_e <= exist_e) or
+                --(exist_s >= curr_s and exist_s <= curr_e) or
+                --(exist_e >= curr_s and exist_e <= curr_e)
+                not (curr_e < exist_s or curr_s > exist_e)
             ) then
                 ranges[i].deleted = true -- mark exising one as deleted
                 curr_s = math.min(curr_s, exist_s) -- set the boundaries for current to min / max
