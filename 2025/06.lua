@@ -41,7 +41,6 @@ for i = 1, #lines do
             if (not inputs[j]) then
                 inputs[j] = {}
             end
-            
             table.insert(inputs[j], tonumber(split_line[j]))
         end
     else
@@ -86,7 +85,7 @@ for i = 1, #split_lines[1] do -- for each column of input
     end
 
     if (all_space) then
-        counter = counter + 1 -- in crease column counter
+        counter = counter + 1 -- increase column counter
     else
         if (not inputs2[counter]) then
             inputs2[counter] = {}

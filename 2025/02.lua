@@ -69,7 +69,7 @@ for i = 1, #ranges do
 	end
 	local start = tonumber(string.sub(ranges[i], 1, split-1))
 	local stop = tonumber(string.sub(ranges[i], split+1))
-	-- tonumber() only here to make an int (otherwise it will be a flow in for loop)
+	-- tonumber() only here to make an int (otherwise it will be a float in for loop)
 
 	for j = start, stop do
 		if is_invalid_id(j) then
