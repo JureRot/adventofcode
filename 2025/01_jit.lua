@@ -50,7 +50,7 @@ for i = 1, #lines do
 	local temp_dial2 = dial2 + count
 
 	-- check if multiple crosses
-	local crosses = math.abs(dial2 - temp_dial2) // 100 -- works but LuaJIT throws an error
+	local crosses = math.floor(math.abs(dial2 - temp_dial2) / 100)
 	if crosses>0 then
 		num_any_zeros = num_any_zeros + crosses
 		if (temp_dial2 < 0) then
