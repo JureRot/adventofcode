@@ -108,8 +108,8 @@ elseif (paths_to_dac["fft"] > 0 ) then
 	all_paths = paths_from_svr["svr"] * paths_to_dac["fft"] * paths_to_out["dac"]
 end
 
-
 print("Part 2: " .. tostring(all_paths))
+
 
 local end_time = os.clock()
 print("Elapsed time " .. (end_time - start_time) .. " seconds")
