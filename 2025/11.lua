@@ -25,31 +25,6 @@ local function find_paths(machines, node, paths)
 	return machines, paths
 end
 
-local function find_paths2(machines, node, paths)
-	local num_paths = 0
-	local num_dacs = 0
-	local num_ffts = 0
-
-	for _, i in ipairs(machines[node]) do
-		if (not paths[i]) then
-			machines, paths = find_paths2(machines, i, paths)
-		end
-		num_paths =  num_paths + paths[i].paths
-	end
-
-	if (node == "dac") then
-		num_dacs = num_paths
-	end
-
-	if (node == "fft") then
-		num_ffts = num_paths
-	end
-
-	paths[node] = { paths = num_paths, dac = false, fft = false }
-
-	return machines, paths
-end
-
 
 -- part 1
 local machines = {}
