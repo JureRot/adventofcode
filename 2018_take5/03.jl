@@ -1,4 +1,3 @@
-using Core: typemax_Int
 start_time = time()
 input_file = "03.txt"
 
