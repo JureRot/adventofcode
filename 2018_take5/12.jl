@@ -170,6 +170,5 @@ end
 println("Part 2: ", curr_value + (iterations_needed-num_iterations)*curr_change)
 
 
-
 elapsed_time = time() - start_time
 println("Elapsed time:" , elapsed_time, " seconds")
